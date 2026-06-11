@@ -1,0 +1,207 @@
+:root {
+    --body-color: #0a0a0f;
+    --sidebar-color: #141419;
+    --primary-color: #695cfe;
+    --text-color: #8a8a95;
+    --tran: all 0.25s ease;
+
+    --sidebar-w: 220px;
+    --sidebar-w-closed: 68px;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: var(--sidebar-w);
+    padding: 14px 12px;
+    background: var(--sidebar-color);
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    transition: var(--tran);
+    z-index: 100;
+}
+
+.sidebar.close {
+    width: var(--sidebar-w-closed);
+}
+
+/* ===== Top: collapse button ===== */
+.sidebar-top {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 4px;
+}
+
+.sidebar.close .sidebar-top {
+    justify-content: center;
+}
+
+.collapse-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: var(--tran);
+}
+
+.collapse-btn:hover {
+    background: rgba(105, 92, 254, 0.14);
+    color: var(--primary-color);
+}
+
+.sidebar.close .collapse-btn svg {
+    transform: rotate(180deg);
+    transition: var(--tran);
+}
+
+/* ===== List items ===== */
+.sidebar li {
+    height: 44px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin-top: 6px;
+}
+
+.sidebar .icon {
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sidebar .text,
+.sidebar .icon {
+    color: var(--text-color);
+    transition: var(--tran);
+}
+
+.sidebar .text {
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 1;
+}
+
+.sidebar.close .text {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ===== Menu ===== */
+.sidebar .menu {
+    margin-top: 8px;
+}
+
+.sidebar li.search-box {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    cursor: text;
+    padding-right: 10px;
+    transition: var(--tran);
+}
+
+.sidebar li.search-box:focus-within {
+    border-color: var(--primary-color);
+}
+
+.sidebar li.search-box input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    background: transparent;
+    color: #ececf1;
+    font-size: 14px;
+}
+
+.sidebar li.search-box input::placeholder {
+    color: var(--text-color);
+}
+
+.sidebar li a {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: var(--tran);
+}
+
+.sidebar li a:hover {
+    background-color: rgba(105, 92, 254, 0.14);
+}
+
+.sidebar li a:hover .icon,
+.sidebar li a:hover .text {
+    color: var(--primary-color);
+}
+
+/* active route */
+.sidebar li a.active {
+    background-color: rgba(105, 92, 254, 0.16);
+}
+
+.sidebar li a.active .icon,
+.sidebar li a.active .text {
+    color: var(--primary-color);
+}
+
+.sidebar li a.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    border-radius: 0 3px 3px 0;
+    background: var(--primary-color);
+}
+
+.sidebar .menu-bar {
+    height: calc(100% - 54px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+}
+
+.menu-bar::-webkit-scrollbar {
+    display: none;
+}
+
+/* ===== Bottom: logout ===== */
+.bottom-content {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 6px;
+}
+
+/* ===== Page content ===== */
+.content {
+    position: absolute;
+    top: 0;
+    left: var(--sidebar-w);
+    height: 100vh;
+    width: calc(100% - var(--sidebar-w));
+    background-color: var(--body-color);
+    transition: var(--tran);
+    text-align: center;
+}
+
+.sidebar.close ~ .content {
+    left: var(--sidebar-w-closed);
+    width: calc(100% - var(--sidebar-w-closed));
+}
