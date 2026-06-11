@@ -1,8 +1,7 @@
-
 # 🎫 SorvisLater
 
-**SorvisLater** is an IT ticketing system solution for **Minecraft** servers, inspired by **ServiceNow**.  
-It is designed to facilitate the management of support requests in communities and technical servers.
+**SorvisLater** is an IT ticketing system for **Minecraft** servers, inspired by **ServiceNow**.
+It helps communities and technical servers manage support requests — tickets, incidents and a knowledge base.
 
 ---
 
@@ -13,112 +12,93 @@ It is designed to facilitate the management of support requests in communities a
 
 ---
 
-## ⚙️ Full Installation
+## 🗂️ Repository Structure
 
-### 🔧 Prerequisites
+This is a monorepo containing one front-end and two interchangeable back-ends:
 
-Before getting started, make sure you have installed:
+| Project | Path | Stack | README |
+| ------- | ---- | ----- | ------ |
+| **Web Client** | [`client/react`](client/react) | React 19 · React Router 7 · Vite · TypeScript | [README](client/react/README.md) |
+| **API (legacy)** | [`server/express`](server/express) | Express 4 · TypeScript · MySQL | [README](server/express/README.md) |
+| **API (current)** | [`server/nest`](server/nest) | NestJS 11 · TypeORM · SQLite | [README](server/nest/README.md) |
+| **Database** | [`database`](database) | MySQL schema dump (`dump.sql`) | — |
 
-- [Node.js](https://nodejs.org/) (LTS recommended)
-- MySQL Server
-
----
-
-### 🧱 Steps (Linux)
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/your-user/SorvisLater.git
-   cd SorvisLater
-   ```
-
-2. **Install MySQL Server:**
-
-   ```bash
-   sudo apt-get install mysql-server
-   ```
-
-3. **Login to MySQL as root:**
-
-   ```bash
-   sudo mysql
-   ```
-
-4. **Create the database and user:**
-
-   Inside the MySQL client:
-
-   ```sql
-   CREATE DATABASE SorvisLater;
-   CREATE USER 'sorvis_user'@'%' IDENTIFIED BY 'your_password';
-   GRANT ALL PRIVILEGES ON SorvisLater.* TO 'sorvis_user'@'%';
-   FLUSH PRIVILEGES;
-   EXIT;
-   ```
-
-5. **Import tables using the dump:**
-
-   Make sure you are in the `database` folder of the project and run:
-
-   ```bash
-   cd database
-   mysql -u sorvis_user -p SorvisLater < dump.sql
-   ```
-
-> 🛑 If you are using a separate machine for the database, make sure to open port **3306** (default for MySQL).
-
-6. **Go back to the server folder and install dependencies:**
-
-   ```bash
-   cd ../server
-   npm install
-   npm i -D
-   ```
-
-7. **Build the backend:**
-
-   ```bash
-   npm run build
-   ```
-
-   This will generate a `dist/` folder with the backend compiled from TypeScript.
-
-8. **Run the server:**
-
-   ```bash
-   cd dist
-   node index.js
-   ```
+> 🔄 **Migration in progress:** the API was **first built with Express** (MySQL) and is currently **being ported to NestJS** (SQLite + TypeORM). The Express version is the original, working implementation; the NestJS version is the ongoing rewrite that will eventually replace it.
 
 ---
 
-## 🌐 Database Connection
+## 🚀 Quick Start
 
-Check that your configuration file has the correct details:
+### 1. Web Client
 
-- Server IP
-- Username: `sorvis_user`
-- Password: `your_password`
-- Port: `3306` (default)
-- Database: `SorvisLater`
+```bash
+cd client/react
+bun install
+bun run dev          # http://localhost:5173
+```
+
+Set the API base URL in `client/react/.env`:
+
+```env
+VITE_API_BASE_URL=http://localhost:5000   # Express  (or http://localhost:3000 for Nest)
+```
+
+### 2a. Back-end — NestJS (recommended)
+
+Uses a local SQLite database; no extra setup required.
+
+```bash
+cd server/nest
+npm install
+npm run start:dev    # http://localhost:3000
+```
+
+### 2b. Back-end — Express (legacy)
+
+Requires a running **MySQL Server**.
+
+```bash
+# create the database and import the schema
+sudo mysql
+```
+```sql
+CREATE DATABASE SorvisLater;
+CREATE USER 'sorvis_user'@'%' IDENTIFIED BY 'your_password';
+GRANT ALL PRIVILEGES ON SorvisLater.* TO 'sorvis_user'@'%';
+FLUSH PRIVILEGES;
+EXIT;
+```
+```bash
+cd database
+mysql -u sorvis_user -p SorvisLater < dump.sql
+
+cd ../server/express
+npm install
+npm test             # http://localhost:5000
+```
+
+Configure `server/express/.env`:
+
+```env
+SERVER_PORT=5000
+DATABASE_HOST=localhost
+DATABASE_PORT=3306
+DATABASE_NAME=SorvisLater
+DATABASE_USER=sorvis_user
+DATABASE_PASSWORD=your_password
+JWT_SECRET=your_secret
+```
+
+> 🛑 If the database runs on a separate machine, make sure port **3306** is open.
 
 ---
 
-## 🧪 Quick Test
+## 🧩 Domain
 
-1. Make sure the MySQL service is running:
+The system revolves around three core resources:
 
-   ```bash
-   sudo service mysql start
-   ```
+- **Tickets / Incidents** — support requests with status, priority, urgency, impact and assignment.
+- **Knowledge Base** — reference articles to help resolve tickets.
+- **Users / Admins** — agents who handle and are assigned tickets.
 
-2. Start the backend if you haven’t already:
-
-   ```bash
-   cd server/dist
-   node index.js
-   ```
-
-3. Done! Your API should be up and running, ready to receive requests.
-
+See each project's README for endpoint and route details.
