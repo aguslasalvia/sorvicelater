@@ -29,8 +29,8 @@
     }
 
     &::after {
-        background: #c2410c;
-        opacity: 0.35;
+        background: #b968ff;
+        opacity: 0.32;
         bottom: -200px;
         right: -160px;
         animation: glowFloat2 18s ease-in-out infinite alternate;
@@ -65,7 +65,7 @@
 
     .title {
         text-align: center;
-        color: #ececf1;
+        color: #f4f4f8;
         font-size: 2rem;
         font-weight: 600;
         letter-spacing: -0.5px;

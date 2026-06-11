@@ -1,3 +1,5 @@
+import { ArrowUpRight } from "lucide-react";
+
 interface KnowledgeCardProp {
 	id: number
 	title: string,
@@ -6,9 +8,11 @@ interface KnowledgeCardProp {
 export const KnowledgeCard = (item: KnowledgeCardProp) => {
 	return (
 		<div className="result">
-			<p className="kbID">{item.id}</p>
+			<span className="kbID">KB · #{item.id}</span>
 			<p className="kbTitle">{item.title}</p>
-			<a className="button">Open</a>
+			<a className="button">
+				Open <ArrowUpRight size={16} />
+			</a>
 		</div>
 	);
 };

@@ -1,11 +1,12 @@
 import { Routes, Route } from "react-router";
-import UserLayout from "./layouts/UserLayout";
-import Login from "./pages/Login";
-import Backlog from "./pages/Backlog";
-import NewTicket from "./pages/NewTicket";
-import NewKnowledge from "./pages/NewKnowledge";
-import KnowledgeList from "./pages/KnowledgeList";
-import MyTickets from "./pages/MyTickets";
+import UserLayout from "./layouts/user-layout";
+import Login from "./pages/login";
+import Backlog from "./pages/backlog";
+import NewTicket from "./pages/new-ticket";
+import NewKnowledge from "./pages/new-knowledge";
+import KnowledgeList from "./pages/knowledge-list";
+import MyTickets from "./pages/my-tickets";
+import Incidents from "./pages/incidents";
 
 export default function App() {
 	return (
@@ -16,6 +17,7 @@ export default function App() {
 				<Route path="/new/ticket" element={<NewTicket />} />
 				<Route path="/new/knowledge" element={<NewKnowledge />} />
 				<Route path="/lists/knowledge" element={<KnowledgeList />} />
+				<Route path="/lists/allTickets" element={<Incidents />} />
 				<Route path="/lists/myTickets" element={<MyTickets />} />
 			</Route>
 		</Routes>

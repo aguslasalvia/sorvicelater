@@ -48,6 +48,22 @@ export const fetchTicketStateCounters = async () => {
 }
 
 
+export const fetchAllTickets = async (): Promise<Interfaces.Ticket[]> => {
+	try {
+		const response = await fetch(`${API_BASE_URL}/ticket/all`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			},
+		})
+		if (!response.ok) return []
+		return await response.json()
+	} catch {
+		return []
+	}
+}
+
+
 // --------------------------------------- //
 //							Knowledge
 // --------------------------------------- //

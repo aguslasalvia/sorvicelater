@@ -25,6 +25,8 @@ export const TicketBaseForm: Interface.Ticket = {
 	impact: "",
 	urgency: "",
 	priority: "",
-	knowledge: 0,
-	addcomments: "",
+	description: "",
+	worknotes: "",
+	additional: "",
+	kb: 0,
 };

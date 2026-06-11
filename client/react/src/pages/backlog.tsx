@@ -1,5 +1,5 @@
-import "./backlog.css";
-import Counters from "@/components/Counters/Counters";
+import "styles/backlog.css";
+import Counters from "@/components/Counters/counters";
 
 export default function Backlog() {
 	return (

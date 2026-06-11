@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { LogOut } from "lucide-react";
-import Menu from './Menu'
+import Menu from './menu'
 
 type MenuBarProps = {
 	query: string

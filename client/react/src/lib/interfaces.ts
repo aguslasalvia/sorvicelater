@@ -31,6 +31,8 @@ export interface Ticket {
 	impact: string;
 	urgency: string;
 	priority: string;
-	knowledge: number;
-	addcomments: string;
+	description: string;
+	worknotes: string;
+	additional: string;
+	kb: number;
 }
