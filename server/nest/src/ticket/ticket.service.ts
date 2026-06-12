@@ -1,26 +1,58 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Ticket } from './entities/ticket.entity';
+import { Repository } from 'typeorm/browser/repository/Repository.js';
+import { BacklogTicketDto } from './dto/backlog-ticket.dto';
 
 @Injectable()
 export class TicketService {
+  constructor(
+    @InjectRepository(Ticket)
+    private ticketRepository: Repository<Ticket>,
+  ) { };
+
   create(createTicketDto: CreateTicketDto) {
-    return 'This action adds a new ticket';
-  }
+    return this.ticketRepository.save(createTicketDto);
+  };
 
   findAll() {
-    return `This action returns all ticket`;
+    return this.ticketRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} ticket`;
+    return this.ticketRepository.findOneBy({ id });
   }
 
   update(id: number, updateTicketDto: UpdateTicketDto) {
-    return `This action updates a #${id} ticket`;
+    return this.ticketRepository.update(id, updateTicketDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} ticket`;
+    return this.ticketRepository.delete(id);
+  }
+
+  async backlog(): Promise<BacklogTicketDto> {
+    const rows = await this.ticketRepository
+      .createQueryBuilder('ticket')
+      .select('ticket.status', 'status')
+      .addSelect('COUNT(*)', 'count')
+      .where('ticket.status IN (:...statuses)', {
+        statuses: ['new', 'pending', 'resolved'],
+      })
+      .groupBy('ticket.status')
+      .getRawMany<{ status: string; count: string }>();
+
+    const dto = new BacklogTicketDto();
+    dto.new = 0;
+    dto.pending = 0;
+    dto.resolved = 0;
+
+    for (const row of rows) {
+      dto[row.status] = Number(row.count);
+    }
+
+    return dto;
   }
 }

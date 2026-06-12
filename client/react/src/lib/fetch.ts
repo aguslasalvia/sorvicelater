@@ -54,7 +54,7 @@ export const fetchAllAdmins = async () => {
 //								Ticket
 // --------------------------------------- //
 export const fetchTicketStateCounters = async () => {
-	const response = await fetch(`${API_BASE_URL}/ticket/counters`, {
+	const response = await fetch(`${API_BASE_URL}/ticket/backlog`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json"

@@ -5,7 +5,12 @@ import { UpdateTicketDto } from './dto/update-ticket.dto';
 
 @Controller('ticket')
 export class TicketController {
-  constructor(private readonly ticketService: TicketService) {}
+  constructor(private readonly ticketService: TicketService) { }
+
+  @Get('backlog')
+  async backlog() {
+    return await this.ticketService.backlog();
+  }
 
   @Post()
   create(@Body() createTicketDto: CreateTicketDto) {
@@ -31,4 +36,6 @@ export class TicketController {
   remove(@Param('id') id: string) {
     return this.ticketService.remove(+id);
   }
+
+
 }
