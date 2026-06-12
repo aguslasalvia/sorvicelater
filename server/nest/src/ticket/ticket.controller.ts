@@ -12,12 +12,12 @@ export class TicketController {
     return await this.ticketService.backlog();
   }
 
-  @Post()
+  @Post('new')
   create(@Body() createTicketDto: CreateTicketDto) {
     return this.ticketService.create(createTicketDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.ticketService.findAll();
   }
@@ -36,6 +36,4 @@ export class TicketController {
   remove(@Param('id') id: string) {
     return this.ticketService.remove(+id);
   }
-
-
 }

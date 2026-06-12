@@ -4,7 +4,7 @@ import * as Interfaces from "./interfaces"
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 // --------------------------------------- //
-//								User                    //
+//								User                     //
 // --------------------------------------- //
 
 export const fetchLogin = async (body: Interfaces.Login) => {
@@ -51,8 +51,35 @@ export const fetchAllAdmins = async () => {
 
 
 // --------------------------------------- //
-//								Ticket
+//								Ticket									 //
 // --------------------------------------- //
+export const fetchCreateTicket = async (body: Interfaces.Ticket) => {
+	try {
+		const response = await fetch(`${API_BASE_URL}/ticket/new`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(body)
+		})
+
+		if (response.status == 401) {
+			toast.error("User not authorized")
+			return 401
+		}
+		if (response.status == 500) {
+			toast.error("Server error")
+			return 500
+		}
+
+		toast.success("Ticket created")
+		return await response.json()
+	} catch {
+		toast.error("Could not reach the server")
+		return 500
+	}
+}
+
 export const fetchTicketStateCounters = async () => {
 	const response = await fetch(`${API_BASE_URL}/ticket/backlog`, {
 		method: "GET",
@@ -81,10 +108,10 @@ export const fetchAllTickets = async (): Promise<Interfaces.Ticket[]> => {
 
 
 // --------------------------------------- //
-//							Knowledge
+//							Knowledge                  //
 // --------------------------------------- //
 
-export const fetchCountKnowledge = async () => {
+export const fetchCountKnowledge = async (): Promise<number> => {
 	const response = await fetch(`${API_BASE_URL}/knowledge/count`, {
 		method: "GET",
 		headers: {

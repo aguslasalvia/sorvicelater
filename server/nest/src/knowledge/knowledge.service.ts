@@ -4,6 +4,7 @@ import { UpdateKnowledgeDto } from './dto/update-knowledge.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Knowledge } from './entities/knowledge.entity';
 import { Repository } from 'typeorm/browser/repository/Repository.js';
+import { GetKnowledgeDto } from './dto/get-knowledge.dto';
 
 @Injectable()
 export class KnowledgeService {
@@ -15,17 +16,20 @@ export class KnowledgeService {
     return await this.knowledgeRepository.save(createKnowledgeDto);
   }
 
-  findAll() {
-    return `This action returns all knowledge`;
+  async findAll(): Promise<GetKnowledgeDto[]> {
+    return await this.knowledgeRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} knowledge`;
+  async findOne(id: number): Promise<GetKnowledgeDto> {
+    const k = await this.knowledgeRepository.findOneBy({ id });
+    return k as GetKnowledgeDto;
   }
 
-  update(id: number, updateKnowledgeDto: UpdateKnowledgeDto) {
-    return `This action updates a #${id} knowledge`;
+  async update(id: number, updateKnowledgeDto: UpdateKnowledgeDto): Promise<GetKnowledgeDto> {
+    await this.knowledgeRepository.update(id, updateKnowledgeDto);
+    return await this.findOne(id);
   }
+  
 
   remove(id: number) {
     return `This action removes a #${id} knowledge`;

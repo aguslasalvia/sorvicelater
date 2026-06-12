@@ -293,7 +293,7 @@ const TicketForm = ({ props }: TicketFormProps) => {
 										type="button"
 										key={opt.value}
 										className={ticket.impact === opt.value ? "active" : ""}
-										onClick={() => update({ impact: opt.value })}
+										onClick={() => update({ impact: opt.value, priority: getPriority(opt.value, ticket.urgency)?.level ?? "" })}
 									>
 										{opt.label}
 									</button>
@@ -309,7 +309,7 @@ const TicketForm = ({ props }: TicketFormProps) => {
 										type="button"
 										key={opt.value}
 										className={ticket.urgency === opt.value ? "active" : ""}
-										onClick={() => update({ urgency: opt.value })}
+										onClick={() => update({ urgency: opt.value, priority: getPriority(ticket.impact, opt.value)?.level ?? "" })}
 									>
 										{opt.label}
 									</button>

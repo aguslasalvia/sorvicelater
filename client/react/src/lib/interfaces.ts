@@ -18,7 +18,7 @@ export interface Knowledge {
 }
 
 export interface Ticket {
-	id: number;
+	id?: number;
 	request_by: string;
 	request_for: string;
 	service_offering: string;

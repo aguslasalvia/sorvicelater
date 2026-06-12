@@ -12,7 +12,6 @@ export const KnowledgeBaseForm: Interface.Knowledge = {
 };
 
 export const TicketBaseForm: Interface.Ticket = {
-	id: 0,
 	request_by: "",
 	request_for: "",
 	service_offering: "",
