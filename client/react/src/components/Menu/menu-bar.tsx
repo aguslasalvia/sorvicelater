@@ -2,14 +2,10 @@ import { Link } from "react-router";
 import { LogOut } from "lucide-react";
 import Menu from './menu'
 
-type MenuBarProps = {
-	query: string
-}
-
-const MenuBar = ({ query }: MenuBarProps) => {
+const MenuBar = () => {
 	return (
 		<div className="menu-bar">
-			<Menu query={query} />
+			<Menu />
 			<div className="bottom-content">
 				<li>
 					<Link to="/" title="Logout">

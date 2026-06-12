@@ -10,10 +10,6 @@ import {
 	type LucideIcon,
 } from "lucide-react";
 
-type MenuProps = {
-	query: string
-}
-
 type NavItem = {
 	href: string
 	icon: LucideIcon
@@ -29,7 +25,7 @@ const links: NavItem[] = [
 	{ href: "/backlog", icon: BarChart3, text: "Backlog" },
 ]
 
-const Menu = ({ query }: MenuProps) => {
+const Menu = () => {
 	return (
 		<div className="menu">
 			{/* <!-- Searchbox --> */}
@@ -47,10 +43,7 @@ const Menu = ({ query }: MenuProps) => {
 						return (
 							<li key={index} className="nav-link">
 								<NavLink
-									to={{
-										pathname: link.href,
-										search: `?username=${query}`
-									}}
+									to={link.href}
 									title={link.text}
 									className={({ isActive }) => (isActive ? "active" : undefined)}
 								>

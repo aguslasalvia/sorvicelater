@@ -1,3 +1,4 @@
+import toast from "react-hot-toast"
 import * as Interfaces from "./interfaces"
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
@@ -7,17 +8,32 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 // --------------------------------------- //
 
 export const fetchLogin = async (body: Interfaces.Login) => {
-	const response = await fetch(`${API_BASE_URL}/auth/platform`,
-		{
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(body)
-		}
-	)
+	try {
+		const response = await fetch(`${API_BASE_URL}/auth/platform`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(body)
+			}
+		)
 
-	return response.status == 404 ? 404 : response.status == 500 ? 500 : await response.json()
+		if (response.status == 404) {
+			toast.error("User not found")
+			return 404
+		}
+		if (response.status == 500) {
+			toast.error("Server error")
+			return 500
+		}
+
+		toast.success(`Welcome back, ${body.username}`)
+		return await response.json()
+	} catch {
+		toast.error("Could not reach the server")
+		return 500
+	}
 };
 
 
@@ -81,15 +97,30 @@ export const fetchCountKnowledge = async () => {
 
 
 export const fetchKnowledge = async (body: Interfaces.Knowledge) => {
-	const response = await fetch(`${API_BASE_URL}/knowledge/new`, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify(body)
-	})
+	try {
+		const response = await fetch(`${API_BASE_URL}/knowledge/new`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(body)
+		})
 
-	return response.status == 404 ? 404 : response.status == 500 ? 500 : await response.json()
+		if (response.status == 404) {
+			toast.error("User not found")
+			return 404
+		}
+		if (response.status == 500) {
+			toast.error("Server error")
+			return 500
+		}
+
+		toast.success("Article saved")
+		return await response.json()
+	} catch {
+		toast.error("Could not reach the server")
+		return 500
+	}
 }
 
 

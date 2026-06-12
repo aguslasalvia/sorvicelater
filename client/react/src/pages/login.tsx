@@ -8,15 +8,15 @@ import { fetchLogin } from "@/lib/fetch";
 
 export default function Login() {
 	const [formLogin, setFormLogin] = useState(loginForm);
-	const [error, setError] = useState("")
 	const navigate = useNavigate();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		const response = await fetchLogin(formLogin)
-		response == 404 ? setError("User Not Found")
-			: response == 500 ? setError("Server Error")
-				: navigate(`/backlog?username=${formLogin.username}`)
+		if (response !== 404 && response !== 500) {
+			localStorage.setItem("username", formLogin.username)
+			navigate("/backlog")
+		}
 	};
 
 	return (
@@ -69,8 +69,6 @@ export default function Login() {
 				<button className="loginBtn" id="btnLogin" type="submit">
 					Log in
 				</button>
-
-				{error != "" ? <p className="errortext">{error}</p> : <></>}
 			</form>
 		</div>
 	);

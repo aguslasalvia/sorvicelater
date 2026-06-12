@@ -7,7 +7,6 @@ import { fetchCountKnowledge, fetchKnowledge } from '@/lib/fetch'
 
 const KnowledgeForm = () => {
 	const [knowledgeForm, setKnowledgeForm] = useState(KnowledgeBaseForm);
-	const [error, setError] = useState('')
 
 	const navigate = useNavigate();
 
@@ -21,7 +20,9 @@ const KnowledgeForm = () => {
 
 	const handleSubmit = async () => {
 		const response = await fetchKnowledge(knowledgeForm);
-		response == 404 ? setError("User Not Found") : response == 500 ? setError("Server Error") : navigate('/backlog')
+		if (response !== 404 && response !== 500) {
+			navigate('/backlog')
+		}
 	};
 
 	return (
@@ -73,8 +74,6 @@ const KnowledgeForm = () => {
 							onChange={(e) => setKnowledgeForm({ ...knowledgeForm, description: e.target.value })}
 						/>
 					</div>
-
-					{error !== "" && <p className="form-error">{error}</p>}
 				</section>
 			</div>
 		</div>
