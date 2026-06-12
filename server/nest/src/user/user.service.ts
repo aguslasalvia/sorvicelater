@@ -1,9 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm/browser/repository/Repository.js';
+
+const SALT_ROUNDS = 10;
 
 @Injectable()
 export class UserService {
@@ -13,7 +16,12 @@ export class UserService {
   ) { }
 
   async create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    const existing = await this.userRepository.findOneBy({ email: createUserDto.email });
+    if (existing)
+      throw new ConflictException(`Usuario con email ${createUserDto.email} ya existe`);
+
+    const password = await bcrypt.hash(createUserDto.password, SALT_ROUNDS);
+    return this.userRepository.save({ ...createUserDto, password });
   }
 
   async findAll() {
@@ -25,6 +33,16 @@ export class UserService {
 
     if (!user) {
       throw new NotFoundException(`Usuario ${id} no encontrado`);
+    }
+
+    return user;
+  }
+
+  async findByEmail(email: string) {
+    const user = await this.userRepository.findOneBy({ email });
+
+    if (!user) {
+      throw new NotFoundException(`Usuario con email ${email} no encontrado`);
     }
 
     return user;

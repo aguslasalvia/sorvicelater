@@ -1,1 +1,5 @@
-export class CreateKnowledgeDto {}
+export class CreateKnowledgeDto {
+  title: string;
+  description: string;
+  
+}

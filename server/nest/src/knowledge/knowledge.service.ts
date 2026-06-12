@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateKnowledgeDto } from './dto/create-knowledge.dto';
 import { UpdateKnowledgeDto } from './dto/update-knowledge.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Knowledge } from './entities/knowledge.entity';
+import { Repository } from 'typeorm/browser/repository/Repository.js';
 
 @Injectable()
 export class KnowledgeService {
-  create(createKnowledgeDto: CreateKnowledgeDto) {
-    return 'This action adds a new knowledge';
+  constructor(
+    @InjectRepository(Knowledge)
+    private readonly knowledgeRepository: Repository<Knowledge>,
+  ) { }
+  async create(createKnowledgeDto: CreateKnowledgeDto) {
+    return await this.knowledgeRepository.save(createKnowledgeDto);
   }
 
   findAll() {
