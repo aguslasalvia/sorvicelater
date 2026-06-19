@@ -12,6 +12,11 @@ export class TicketController {
     return await this.ticketService.backlog();
   }
 
+  @Get('assigned/:id')
+  findByAssigned(@Param('id') id: string) {
+    return this.ticketService.findByAssigned(id)
+  }
+
   @Post('new')
   create(@Body() createTicketDto: CreateTicketDto) {
     return this.ticketService.create(createTicketDto);

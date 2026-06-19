@@ -54,7 +54,7 @@ export class TicketService {
 
   }
 
-  async findByOwner(id: string) {
+  async findByAssigned(id: string) {
     return await this.ticketRepository.findBy({
       assigned: id
     })
