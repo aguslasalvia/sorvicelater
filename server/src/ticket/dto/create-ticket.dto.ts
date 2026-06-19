@@ -15,6 +15,4 @@ export class CreateTicketDto {
   worknotes: string;
   additional: string;
   kb: number;
-
-
 }

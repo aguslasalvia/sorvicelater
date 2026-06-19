@@ -20,16 +20,16 @@ export class KnowledgeService {
     return await this.knowledgeRepository.find();
   }
 
-  async findOne(id: number): Promise<GetKnowledgeDto> {
+  async findOne(id: number) {
     const k = await this.knowledgeRepository.findOneBy({ id });
-    return k as GetKnowledgeDto;
+    return k;
   }
 
-  async update(id: number, updateKnowledgeDto: UpdateKnowledgeDto): Promise<GetKnowledgeDto> {
+  async update(id: number, updateKnowledgeDto: UpdateKnowledgeDto) {
     await this.knowledgeRepository.update(id, updateKnowledgeDto);
     return await this.findOne(id);
   }
-  
+
 
   remove(id: number) {
     return `This action removes a #${id} knowledge`;

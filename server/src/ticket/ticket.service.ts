@@ -13,23 +13,23 @@ export class TicketService {
     private ticketRepository: Repository<Ticket>,
   ) { };
 
-  create(createTicketDto: CreateTicketDto) {
-    return this.ticketRepository.save(createTicketDto);
+  async create(createTicketDto: CreateTicketDto) {
+    return await this.ticketRepository.save(createTicketDto);
   };
 
-  findAll() {
-    return this.ticketRepository.find();
+  async findAll() {
+    return await this.ticketRepository.find();
   }
 
-  findOne(id: number) {
-    return this.ticketRepository.findOneBy({ id });
+  async findOne(id: number) {
+    return await this.ticketRepository.findOneBy({ id });
   }
 
-  update(id: number, updateTicketDto: UpdateTicketDto) {
-    return this.ticketRepository.update(id, updateTicketDto);
+  async update(id: number, updateTicketDto: UpdateTicketDto) {
+    return await this.ticketRepository.update(id, updateTicketDto);
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.ticketRepository.delete(id);
   }
 
@@ -52,5 +52,11 @@ export class TicketService {
       counts.get('resolved') ?? 0,
     );
 
+  }
+
+  async findByOwner(id: string) {
+    return await this.ticketRepository.findBy({
+      assigned: id
+    })
   }
 }
