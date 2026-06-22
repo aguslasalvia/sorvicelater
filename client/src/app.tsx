@@ -39,8 +39,8 @@ export default function App() {
           <Route path="/new/ticket" element={<NewTicket />} />
           <Route path="/new/knowledge" element={<NewKnowledge />} />
           <Route path="/lists/knowledge" element={<KnowledgeList />} />
-          <Route path="/lists/allTickets" element={<Incidents />} />
-          <Route path="/lists/myTickets" element={<MyTickets />} />
+          <Route path="/lists/all-tickets" element={<Incidents />} />
+          <Route path="/lists/my-tickets" element={<MyTickets />} />
           <Route path="/ticket/:id" element={<TicketDetail />} />
         </Route>
       </Routes>
