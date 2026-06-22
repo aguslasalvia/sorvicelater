@@ -16,6 +16,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        flex-wrap: wrap;
         gap: 20px;
         margin-bottom: 32px;
     }
@@ -31,6 +32,43 @@
         margin-top: 6px;
         font-size: 15px;
         color: #9494a0;
+    }
+
+    .inc-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .inc-state-filter {
+        height: 44px;
+        padding: 0 38px 0 16px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04)
+            url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239494a0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")
+            no-repeat right 14px center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #ececf1;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        transition: border-color 0.2s ease;
+    }
+
+    .inc-state-filter:hover {
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .inc-state-filter:focus {
+        outline: none;
+        border-color: var(--primary-color, #695cfe);
+    }
+
+    .inc-state-filter option {
+        background: #1a1a20;
+        color: #ececf1;
     }
 
     .inc-new-btn {
@@ -206,5 +244,25 @@
         font-size: 14px;
         line-height: 1.55;
         color: #8a8a95;
+    }
+
+    @media (max-width: 768px) {
+        padding: 68px 16px 64px;
+
+        .inc-title {
+            font-size: 28px;
+        }
+
+        .inc-header-actions {
+            width: 100%;
+        }
+
+        .inc-state-filter {
+            flex: 1;
+        }
+
+        .resultsWrapper {
+            grid-template-columns: 1fr;
+        }
     }
 }

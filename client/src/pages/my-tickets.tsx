@@ -1,8 +1,33 @@
 import "styles/mytickets.css";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Inbox, Plus } from "lucide-react";
+import TicketCard from "@/components/Ticket/TicketCard/ticket-card";
+import SearchBar from "@/components/SearchBar/search-bar";
+import { fetchAllTickets } from "@/lib/fetch";
+import { ticketMatchesQuery } from "@/lib/search";
+import { Ticket } from "@/lib/interfaces";
 
 const MyTickets = () => {
+	const [tickets, setTickets] = useState<Ticket[]>([]);
+	const [query, setQuery] = useState("");
+	// login stores the username as a plain string in localStorage
+	const username = localStorage.getItem("username") ?? "";
+
+	useEffect(() => {
+		const getTickets = async () => {
+			const all = await fetchAllTickets();
+			setTickets(
+				all.filter(
+					(t) => t.assigned === username || t.request_by === username,
+				),
+			);
+		};
+		getTickets();
+	}, [username]);
+
+	const filtered = tickets.filter((t) => ticketMatchesQuery(t, query));
+
 	return (
 		<div className="content page-mytickets">
 			<header className="mt-header">
@@ -10,18 +35,34 @@ const MyTickets = () => {
 				<p className="mt-subtitle">Incidents you reported or are assigned to</p>
 			</header>
 
-			<div className="mt-empty">
-				<div className="mt-empty-icon">
-					<Inbox size={30} />
+			<SearchBar
+				value={query}
+				onChange={setQuery}
+				placeholder="Search your incidents…"
+			/>
+
+			{filtered.length === 0 ? (
+				<div className="mt-empty">
+					<div className="mt-empty-icon">
+						<Inbox size={30} />
+					</div>
+					<p className="mt-empty-title">
+						{query !== "" ? "No incidents match your search" : "Nothing here yet"}
+					</p>
+					<p className="mt-empty-text">
+						{query !== ""
+							? "Try a different term or clear the search."
+							: "Incidents you create or get assigned to will show up here."}
+					</p>
+					<Link to="/new/ticket" className="mt-empty-btn">
+						<Plus size={16} /> New incident
+					</Link>
 				</div>
-				<p className="mt-empty-title">Nothing here yet</p>
-				<p className="mt-empty-text">
-					Incidents you create or get assigned to will show up here.
-				</p>
-				<Link to="/new/ticket" className="mt-empty-btn">
-					<Plus size={16} /> New incident
-				</Link>
-			</div>
+			) : (
+				<div className="resultsWrapper">
+					<TicketCard tickets={filtered} />
+				</div>
+			)}
 		</div>
 	);
 };

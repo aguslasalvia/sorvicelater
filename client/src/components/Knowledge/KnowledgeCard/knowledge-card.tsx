@@ -1,18 +1,19 @@
 import { ArrowUpRight } from "lucide-react";
+import { Knowledge } from "@/lib/interfaces";
 
 interface KnowledgeCardProp {
-	id: number
-	title: string,
+	item: Knowledge;
+	onView: (item: Knowledge) => void;
 }
 
-export const KnowledgeCard = (item: KnowledgeCardProp) => {
+export const KnowledgeCard = ({ item, onView }: KnowledgeCardProp) => {
 	return (
 		<div className="result">
 			<span className="kbID">KB · #{item.id}</span>
 			<p className="kbTitle">{item.title}</p>
-			<a className="button">
+			<button type="button" className="button" onClick={() => onView(item)}>
 				Open <ArrowUpRight size={16} />
-			</a>
+			</button>
 		</div>
 	);
 };

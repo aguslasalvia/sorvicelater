@@ -5,6 +5,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Ticket } from "./entities/ticket.entity";
 import { Repository } from "typeorm";
 import { BacklogTicketDto } from "./dto/backlog-ticket.dto";
+import { EfficiencyDto } from "./dto/efficiency.dto";
+import { TicketStatus } from "./ticket-status.enum";
 
 @Injectable()
 export class TicketService {
@@ -14,7 +16,11 @@ export class TicketService {
   ) {}
 
   async create(createTicketDto: CreateTicketDto) {
-    return await this.ticketRepository.save(createTicketDto);
+    return await this.ticketRepository.save({
+      ...createTicketDto,
+      resolved_at:
+        createTicketDto.status === TicketStatus.Resolved ? new Date() : null,
+    });
   }
 
   async findAll() {
@@ -26,7 +32,29 @@ export class TicketService {
   }
 
   async update(id: number, updateTicketDto: UpdateTicketDto) {
-    return await this.ticketRepository.update(id, updateTicketDto);
+    const patch: Partial<Ticket> = { ...updateTicketDto };
+
+    // Never let the client overwrite server-managed fields
+    delete patch.id;
+    delete patch.created_at;
+    delete patch.updated_at;
+    delete patch.resolved_at;
+
+    // Only touch resolved_at on a real status transition, so editing an
+    // already-resolved ticket doesn't reset its resolution time.
+    if (updateTicketDto.status !== undefined) {
+      const current = await this.ticketRepository.findOneBy({ id });
+      const wasResolved = current?.status === TicketStatus.Resolved;
+      const willBeResolved = updateTicketDto.status === TicketStatus.Resolved;
+
+      if (willBeResolved && !wasResolved) {
+        patch.resolved_at = new Date();
+      } else if (!willBeResolved && wasResolved) {
+        patch.resolved_at = null;
+      }
+    }
+
+    return await this.ticketRepository.update(id, patch);
   }
 
   async remove(id: number) {
@@ -38,18 +66,17 @@ export class TicketService {
       .createQueryBuilder("ticket")
       .select("ticket.status", "status")
       .addSelect("COUNT(*)", "count")
-      .where("ticket.status IN (:...statuses)", {
-        statuses: ["new", "pending", "resolved"],
-      })
       .groupBy("ticket.status")
-      .getRawMany<{ status: string; count: string }>();
+      .getRawMany<{ status: number; count: string }>();
 
-    const counts = new Map(rows.map((r) => [r.status, Number(r.count)]));
+    const counts = new Map(
+      rows.map((r) => [Number(r.status), Number(r.count)]),
+    );
 
     return new BacklogTicketDto(
-      counts.get("new") ?? 0,
-      counts.get("pending") ?? 0,
-      counts.get("resolved") ?? 0,
+      counts.get(TicketStatus.New) ?? 0,
+      counts.get(TicketStatus.Pending) ?? 0,
+      counts.get(TicketStatus.Resolved) ?? 0,
     );
   }
 
@@ -57,5 +84,29 @@ export class TicketService {
     return await this.ticketRepository.findBy({
       assigned: id,
     });
+  }
+
+  // Resolution-time breakdown of resolved tickets: < 24h, < 72h (3 days), > 72h
+  async efficiency(): Promise<EfficiencyDto> {
+    const resolved = await this.ticketRepository.findBy({
+      status: TicketStatus.Resolved,
+    });
+
+    let under24h = 0;
+    let under72h = 0;
+    let over72h = 0;
+
+    for (const ticket of resolved) {
+      if (!ticket.resolved_at || !ticket.created_at) continue;
+      const hours =
+        (new Date(ticket.resolved_at).getTime() -
+          new Date(ticket.created_at).getTime()) /
+        3_600_000;
+      if (hours < 24) under24h++;
+      else if (hours < 72) under72h++;
+      else over72h++;
+    }
+
+    return { under24h, under72h, over72h };
   }
 }

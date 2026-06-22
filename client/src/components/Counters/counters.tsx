@@ -1,6 +1,20 @@
 import { useEffect, useState } from "react";
-import { Inbox, Clock, CircleCheck, Layers, type LucideIcon } from "lucide-react";
-import { fetchTicketStateCounters } from "@/lib/fetch";
+import { Link } from "react-router";
+import { Inbox, Clock, CircleCheck, type LucideIcon } from "lucide-react";
+import {
+	fetchTicketStateCounters,
+	fetchAllTickets,
+	fetchTicketEfficiency,
+	type Efficiency,
+} from "@/lib/fetch";
+import { Ticket } from "@/lib/interfaces";
+import { TicketStatus, statusLabel } from "@/lib/constants";
+
+const effBuckets: { key: keyof Efficiency; label: string; tone: string }[] = [
+	{ key: "under24h", label: "Under 24h", tone: "resolved" },
+	{ key: "under72h", label: "1–3 days", tone: "pending" },
+	{ key: "over72h", label: "Over 3 days", tone: "slow" },
+];
 
 type Counters = { new: number; pending: number; resolved: number };
 
@@ -17,101 +31,158 @@ const stats: StatConfig[] = [
 	{ key: "resolved", label: "Resolved", icon: CircleCheck, tone: "resolved" },
 ];
 
-const RADIUS = 70;
-const CIRC = 2 * Math.PI * RADIUS;
+const STATUS_TONE: Record<TicketStatus, string> = {
+	[TicketStatus.New]: "new",
+	[TicketStatus.Pending]: "pending",
+	[TicketStatus.Resolved]: "resolved",
+};
 
 const Counters = () => {
-	const [counters, setCounters] = useState<Counters>({ new: 0, pending: 0, resolved: 0 })
+	const [counters, setCounters] = useState<Counters>({ new: 0, pending: 0, resolved: 0 });
+	const [recent, setRecent] = useState<Ticket[]>([]);
+	const [efficiency, setEfficiency] = useState<Efficiency>({
+		under24h: 0,
+		under72h: 0,
+		over72h: 0,
+	});
 
 	useEffect(() => {
-		const getCounters = async () => {
-			setCounters(await fetchTicketStateCounters())
-		}
-		getCounters()
-	}, [])
+		const load = async () => {
+			setCounters(await fetchTicketStateCounters());
+			setEfficiency(await fetchTicketEfficiency());
+			const all = await fetchAllTickets();
+			setRecent(
+				[...all].sort((a, b) => (b.id ?? 0) - (a.id ?? 0)).slice(0, 5),
+			);
+		};
+		load();
+	}, []);
 
 	const total = counters.new + counters.pending + counters.resolved;
 	const pct = (n: number) => (total === 0 ? 0 : Math.round((n / total) * 100));
 
-	let cumulative = 0;
-	const segments = stats.map((s) => {
-		const value = counters[s.key];
-		const frac = total === 0 ? 0 : value / total;
-		const seg = { ...s, value, frac, start: cumulative };
-		cumulative += frac;
-		return seg;
-	});
+	const effTotal =
+		efficiency.under24h + efficiency.under72h + efficiency.over72h;
+	const effPct = (n: number) =>
+		effTotal === 0 ? 0 : Math.round((n / effTotal) * 100);
 
 	return (
 		<>
-			{/* ===== KPI row ===== */}
-			<div className="dash-kpis">
-				<div className="kpi tone-total">
-					<div className="kpi__head">
-						<span className="kpi__label">Total</span>
-						<Layers size={18} className="kpi__icon" />
-					</div>
-					<p className="kpi__value">{total}</p>
+			{/* ===== Hero summary ===== */}
+			<section className="bl-hero">
+				<div className="bl-hero__main">
+					<span className="bl-hero__label">Total incidents</span>
+					<p className="bl-hero__value">{total}</p>
 				</div>
+
+				<div className="bl-hero__chart">
+					<div className="stack-bar">
+						{total === 0 ? (
+							<span
+								className="stack-seg stack-seg--empty"
+								style={{ width: "100%" }}
+							/>
+						) : (
+							stats.map((s) => (
+								<span
+									key={s.key}
+									className={`stack-seg tone-${s.tone}`}
+									style={{ width: `${pct(counters[s.key])}%` }}
+								/>
+							))
+						)}
+					</div>
+
+					<div className="stack-legend">
+						{stats.map(({ key, label, tone }) => (
+							<span className="stack-legend__item" key={key}>
+								<span className={`dot tone-${tone}`} />
+								{label}
+								<strong>{counters[key]}</strong>
+								<span className="stack-legend__pct">{pct(counters[key])}%</span>
+							</span>
+						))}
+					</div>
+				</div>
+			</section>
+
+			{/* ===== Status cards ===== */}
+			<div className="bl-cards">
 				{stats.map(({ key, label, icon: Icon, tone }) => (
-					<div className={`kpi tone-${tone}`} key={key}>
-						<div className="kpi__head">
-							<span className="kpi__label">{label}</span>
-							<Icon size={18} className="kpi__icon" />
+					<div className={`bl-card tone-${tone}`} key={key}>
+						<div className="bl-card__head">
+							<span className="bl-card__label">{label}</span>
+							<Icon size={18} className="bl-card__icon" />
 						</div>
-						<p className="kpi__value">{counters[key]}</p>
+						<p className="bl-card__value">{counters[key]}</p>
+						<div className="bl-card__bar">
+							<span style={{ width: `${pct(counters[key])}%` }} />
+						</div>
 					</div>
 				))}
 			</div>
 
-			{/* ===== Panels ===== */}
-			<div className="dash-panels">
-				<div className="panel">
-					<p className="panel__title">Incidents by status</p>
-					<div className="donut-wrap">
-						<svg viewBox="0 0 180 180" className="donut">
-							<circle className="donut__track" cx="90" cy="90" r={RADIUS} />
-							{segments.map((s) => (
-								<circle
-									key={s.key}
-									className={`donut__seg tone-${s.tone}`}
-									cx="90"
-									cy="90"
-									r={RADIUS}
-									strokeDasharray={`${s.frac * CIRC} ${CIRC}`}
-									transform={`rotate(${s.start * 360 - 90} 90 90)`}
-								/>
-							))}
-						</svg>
-						<div className="donut__center">
-							<span className="donut__total">{total}</span>
-							<span className="donut__caption">incidents</span>
-						</div>
-					</div>
+			{/* ===== Resolution efficiency ===== */}
+			<section className="bl-eff">
+				<div className="bl-recent__head">
+					<p className="bl-recent__title">Resolution efficiency</p>
+					<span className="bl-eff__count">{effTotal} resolved</span>
 				</div>
 
-				<div className="panel">
-					<p className="panel__title">Status breakdown</p>
-					<div className="breakdown">
-						{stats.map(({ key, label, tone }) => (
-							<div className="breakdown__row" key={key}>
-								<div className="breakdown__head">
-									<span className="breakdown__name">
+				{effTotal === 0 ? (
+					<p className="bl-recent__empty">No resolved incidents yet.</p>
+				) : (
+					<div className="bl-eff__rows">
+						{effBuckets.map(({ key, label, tone }) => (
+							<div className="bl-eff__row" key={key}>
+								<div className="bl-eff__head">
+									<span className="bl-eff__name">
 										<span className={`dot tone-${tone}`} />
 										{label}
 									</span>
-									<span className="breakdown__meta">
-										{counters[key]} · {pct(counters[key])}%
+									<span className="bl-eff__meta">
+										{efficiency[key]} · {effPct(efficiency[key])}%
 									</span>
 								</div>
-								<div className={`breakdown__bar tone-${tone}`}>
-									<span style={{ width: `${pct(counters[key])}%` }} />
+								<div className={`bl-eff__bar tone-${tone}`}>
+									<span style={{ width: `${effPct(efficiency[key])}%` }} />
 								</div>
 							</div>
 						))}
 					</div>
+				)}
+			</section>
+
+			{/* ===== Recent incidents ===== */}
+			<section className="bl-recent">
+				<div className="bl-recent__head">
+					<p className="bl-recent__title">Recent incidents</p>
+					<Link to="/lists/allTickets" className="bl-recent__link">
+						View all
+					</Link>
 				</div>
-			</div>
+
+				{recent.length === 0 ? (
+					<p className="bl-recent__empty">No incidents yet.</p>
+				) : (
+					<ul className="bl-recent__list">
+						{recent.map((t) => (
+							<li className="bl-row" key={t.id}>
+								<span className="bl-row__id">#{t.id}</span>
+								<span className="bl-row__title">
+									{t.description || t.service_offering || "Untitled incident"}
+								</span>
+								<span className="bl-row__assignee">
+									{t.assigned || "Unassigned"}
+								</span>
+								<span className={`status-pill tone-${STATUS_TONE[t.status as TicketStatus]}`}>
+									{statusLabel(t.status as TicketStatus)}
+								</span>
+							</li>
+						))}
+					</ul>
+				)}
+			</section>
 		</>
 	);
 };

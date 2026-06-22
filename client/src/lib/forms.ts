@@ -1,4 +1,5 @@
 import * as Interface from "./interfaces";
+import { TicketStatus } from "./constants";
 
 export const loginForm: Interface.Login = {
 	username: "",
@@ -17,7 +18,7 @@ export const TicketBaseForm: Interface.Ticket = {
 	service_offering: "",
 	item: "",
 	contact_type: "",
-	status: "",
+	status: TicketStatus.New,
 	assigned: "",
 	category: "",
 	symptom: "",

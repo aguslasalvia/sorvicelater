@@ -17,6 +17,8 @@ export interface Knowledge {
 	description: string;
 }
 
+import { TicketStatus } from "./constants";
+
 export interface Ticket {
 	id?: number;
 	request_by: string;
@@ -24,7 +26,7 @@ export interface Ticket {
 	service_offering: string;
 	item: string;
 	contact_type: string;
-	status: string;
+	status: TicketStatus;
 	assigned: string;
 	category: string;
 	symptom: string;
@@ -35,4 +37,5 @@ export interface Ticket {
 	worknotes: string;
 	additional: string;
 	kb: number;
+	created_at?: string;
 }

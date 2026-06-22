@@ -1,7 +1,5 @@
 import { NavLink } from "react-router";
 import {
-	SquarePen,
-	BookPlus,
 	Archive,
 	UserRound,
 	BookMarked,
@@ -9,6 +7,7 @@ import {
 	Search,
 	type LucideIcon,
 } from "lucide-react";
+import NewButton from "./new-button";
 
 type NavItem = {
 	href: string
@@ -17,17 +16,22 @@ type NavItem = {
 }
 
 const links: NavItem[] = [
-	{ href: "/new/ticket", icon: SquarePen, text: "New incident" },
-	{ href: "/new/knowledge", icon: BookPlus, text: "New KB" },
+	{ href: "/backlog", icon: BarChart3, text: "Backlog" },
 	{ href: "/lists/allTickets", icon: Archive, text: "Incidents" },
 	{ href: "/lists/myTickets", icon: UserRound, text: "My incidents" },
 	{ href: "/lists/knowledge", icon: BookMarked, text: "KB articles" },
-	{ href: "/backlog", icon: BarChart3, text: "Backlog" },
 ]
 
-const Menu = () => {
+interface MenuProps {
+	onNavigate?: () => void
+}
+
+const Menu = ({ onNavigate }: MenuProps) => {
 	return (
 		<div className="menu">
+			{/* Primary create action */}
+			<NewButton onNavigate={onNavigate} />
+
 			{/* <!-- Searchbox --> */}
 			<li className="search-box" title="Search">
 				{/* <!-- PARA BUSCAR KB O INC --> */}
@@ -45,6 +49,7 @@ const Menu = () => {
 								<NavLink
 									to={link.href}
 									title={link.text}
+									onClick={onNavigate}
 									className={({ isActive }) => (isActive ? "active" : undefined)}
 								>
 									<Icon className="icon" size={18} />

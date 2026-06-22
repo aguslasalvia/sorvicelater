@@ -1,10 +1,12 @@
+import { TicketStatus } from "../ticket-status.enum";
+
 export class CreateTicketDto {
   request_by: string;
   request_for: string;
   service_offering: string;
   item: string;
   contact_type: string;
-  status: string;
+  status: TicketStatus;
   assigned: string;
   category: string;
   symptom: string;

@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { User } from "../../user/entities/user.entity";
 import { Knowledge } from "../../knowledge/entities/knowledge.entity";
+import { TicketStatus } from "../ticket-status.enum";
 
 @Entity("tickets")
 export class Ticket {
@@ -30,8 +31,9 @@ export class Ticket {
   @Column()
   contact_type: string;
 
-  @Column()
-  status: string;
+  // Stored as the enum's numeric value (0 = New, 1 = Pending, 2 = Resolved)
+  @Column({ type: "int", default: TicketStatus.New })
+  status: TicketStatus;
 
   @Column()
   assigned: string;
@@ -76,4 +78,8 @@ export class Ticket {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  // Set when the ticket transitions to Resolved; cleared if it is reopened.
+  @Column({ type: "datetime", nullable: true })
+  resolved_at: Date | null;
 }

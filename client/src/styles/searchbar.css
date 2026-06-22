@@ -1,0 +1,45 @@
+/* ===== Central search bar ===== */
+.searchbar {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto 34px;
+}
+
+.searchbar__icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #76767f;
+    pointer-events: none;
+    transition: color 0.2s ease;
+}
+
+.searchbar:focus-within .searchbar__icon {
+    color: #695cfe;
+}
+
+.searchbar__input {
+    width: 100%;
+    height: 50px;
+    padding: 0 16px 0 46px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ececf1;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.searchbar__input::placeholder {
+    color: #6a6a74;
+}
+
+.searchbar__input:focus {
+    border-color: #695cfe;
+    background: rgba(105, 92, 254, 0.05);
+    box-shadow: 0 0 0 3px rgba(105, 92, 254, 0.18);
+}

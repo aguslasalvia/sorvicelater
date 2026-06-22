@@ -102,6 +102,106 @@
     margin-top: 8px;
 }
 
+/* ===== "+ New" primary action ===== */
+.new-wrap {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.new-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 44px;
+    padding: 0 12px;
+    gap: 4px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #7b6dff, #5a48ff);
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(105, 92, 254, 0.4);
+    transition: filter 0.18s ease, transform 0.15s ease;
+}
+
+.new-btn:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+.new-btn .icon,
+.new-btn .text {
+    color: #fff;
+}
+
+.new-btn .icon {
+    transition: transform 0.2s ease;
+}
+
+.new-btn.open .icon {
+    transform: rotate(45deg);
+}
+
+/* When the sidebar is collapsed, the button is just a centered "+" icon */
+.sidebar.close .new-btn {
+    justify-content: center;
+    padding: 0;
+}
+
+.sidebar.close .new-btn .text {
+    display: none;
+}
+
+.new-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 110;
+}
+
+.new-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    z-index: 120;
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    border-radius: 12px;
+    background: #1c1c24;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* In the collapsed rail, pop the menu out to the right */
+.sidebar.close .new-menu {
+    left: calc(100% + 10px);
+    right: auto;
+    width: 190px;
+}
+
+.new-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 9px;
+    color: #c4c4cc;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.new-menu a:hover {
+    background: rgba(105, 92, 254, 0.16);
+    color: #fff;
+}
+
 .sidebar li.search-box {
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.04);
@@ -176,7 +276,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow-y: auto;
+    /* visible (not auto) so the collapsed "+ New" popout isn't clipped */
+    overflow: visible;
 }
 
 .menu-bar::-webkit-scrollbar {
@@ -204,4 +305,77 @@
 .sidebar.close ~ .content {
     left: var(--sidebar-w-closed);
     width: calc(100% - var(--sidebar-w-closed));
+}
+
+/* ===== Mobile drawer ===== */
+.mobile-hamburger {
+    display: none;
+}
+
+.sidebar-backdrop {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    /* Floating hamburger button, fixed top-left */
+    .mobile-hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        width: 42px;
+        height: 42px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        background: var(--sidebar-color);
+        color: #ececf1;
+        cursor: pointer;
+        z-index: 90;
+    }
+
+    /* Sidebar becomes a slide-in drawer (full menu width, off-screen by default) */
+    .sidebar,
+    .sidebar.close {
+        width: var(--sidebar-w);
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+    }
+
+    .sidebar:not(.close) {
+        transform: translateX(0);
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Inside the open drawer the labels must always be visible */
+    .sidebar .text {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Content takes the full width and clears the hamburger */
+    .content,
+    .sidebar.close ~ .content {
+        left: 0;
+        width: 100%;
+        padding-top: 64px;
+    }
+
+    /* Dimmed backdrop behind the drawer */
+    .sidebar-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+        z-index: 95;
+    }
+
+    .sidebar-backdrop.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
 }

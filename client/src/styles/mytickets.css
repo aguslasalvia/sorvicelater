@@ -101,4 +101,16 @@
             0 12px 32px rgba(105, 92, 254, 0.6),
             inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
+
+    @media (max-width: 768px) {
+        padding: 68px 16px 64px;
+
+        .mt-title {
+            font-size: 28px;
+        }
+
+        .resultsWrapper {
+            grid-template-columns: 1fr;
+        }
+    }
 }
