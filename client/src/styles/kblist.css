@@ -78,22 +78,22 @@
         margin-top: 8px;
         font-size: 22px;
         font-weight: 700;
-        color: #16181d;
+        color: #f4f5f7;
         line-height: 1.25;
     }
 
     .kb-modal-desc {
         white-space: pre-wrap;
-        color: #3f424b;
+        color: #d6d8de;
     }
 
     .kb-modal-input,
     .kb-modal-textarea {
         width: 100%;
-        background: rgba(0, 0, 0, 0.035);
-        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.18);
         border-radius: 11px;
-        color: #16181d;
+        color: #f4f5f7;
         font-family: inherit;
         font-size: 14px;
         outline: 0;
@@ -144,14 +144,14 @@
     }
 
     .kb-modal-btn.ghost {
-        background: rgba(0, 0, 0, 0.04);
-        border-color: rgba(0, 0, 0, 0.09);
-        color: #3f424b;
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.18);
+        color: #d6d8de;
     }
 
     .kb-modal-btn.ghost:hover {
-        background: rgba(0, 0, 0, 0.06);
-        color: #16181d;
+        background: rgba(255, 255, 255, 0.12);
+        color: #f4f5f7;
     }
 
     .kb-modal-btn.primary {
