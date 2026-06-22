@@ -1,44 +1,52 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TicketService } from './ticket.service';
-import { CreateTicketDto } from './dto/create-ticket.dto';
-import { UpdateTicketDto } from './dto/update-ticket.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from "@nestjs/common";
+import { TicketService } from "./ticket.service";
+import { CreateTicketDto } from "./dto/create-ticket.dto";
+import { UpdateTicketDto } from "./dto/update-ticket.dto";
 
-@Controller('ticket')
+@Controller("ticket")
 export class TicketController {
-  constructor(private readonly ticketService: TicketService) { }
+  constructor(private readonly ticketService: TicketService) {}
 
-  @Get('backlog')
+  @Get("backlog")
   async backlog() {
     return await this.ticketService.backlog();
   }
 
-  @Get('assigned/:id')
-  findByAssigned(@Param('id') id: string) {
-    return this.ticketService.findByAssigned(id)
+  @Get("assigned/:id")
+  findByAssigned(@Param("id") id: string) {
+    return this.ticketService.findByAssigned(id);
   }
 
-  @Post('new')
+  @Post("new")
   create(@Body() createTicketDto: CreateTicketDto) {
     return this.ticketService.create(createTicketDto);
   }
 
-  @Get('all')
+  @Get("all")
   findAll() {
     return this.ticketService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.ticketService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTicketDto: UpdateTicketDto) {
+  @Patch(":id")
+  update(@Param("id") id: string, @Body() updateTicketDto: UpdateTicketDto) {
     return this.ticketService.update(+id, updateTicketDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.ticketService.remove(+id);
   }
 }

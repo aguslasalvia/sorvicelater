@@ -1,10 +1,14 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
-import { Repository } from 'typeorm/browser/repository/Repository.js';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import * as bcrypt from "bcrypt";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { User } from "./entities/user.entity";
+import { Repository } from "typeorm/browser/repository/Repository.js";
 
 const SALT_ROUNDS = 10;
 
@@ -13,12 +17,16 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) { }
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const existing = await this.userRepository.findOneBy({ email: createUserDto.email });
+    const existing = await this.userRepository.findOneBy({
+      email: createUserDto.email,
+    });
     if (existing)
-      throw new ConflictException(`Usuario con email ${createUserDto.email} ya existe`);
+      throw new ConflictException(
+        `Usuario con email ${createUserDto.email} ya existe`,
+      );
 
     const password = await bcrypt.hash(createUserDto.password, SALT_ROUNDS);
     return this.userRepository.save({ ...createUserDto, password });

@@ -6,11 +6,11 @@ import {
   CreateDateColumn,
   ManyToOne,
   JoinColumn,
-} from 'typeorm';
-import { User } from '../../user/entities/user.entity';
-import { Knowledge } from '../../knowledge/entities/knowledge.entity';
+} from "typeorm";
+import { User } from "../../user/entities/user.entity";
+import { Knowledge } from "../../knowledge/entities/knowledge.entity";
 
-@Entity('tickets')
+@Entity("tickets")
 export class Ticket {
   @PrimaryGeneratedColumn()
   id: number;
@@ -64,11 +64,11 @@ export class Ticket {
   kb: number;
 
   @ManyToOne(() => Knowledge, { nullable: true })
-  @JoinColumn({ name: 'kb' })
+  @JoinColumn({ name: "kb" })
   knowledge: Knowledge;
 
   @ManyToOne(() => User, { nullable: true })
-  @JoinColumn({ name: 'assigned_id' })
+  @JoinColumn({ name: "assigned_id" })
   assigned_user: User;
 
   @CreateDateColumn()

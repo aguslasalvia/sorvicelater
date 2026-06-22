@@ -1,5 +1,4 @@
 export class CreateKnowledgeDto {
-  
   title: string;
   description: string;
 
@@ -7,5 +6,4 @@ export class CreateKnowledgeDto {
     this.title = title;
     this.description = description;
   }
-
 }

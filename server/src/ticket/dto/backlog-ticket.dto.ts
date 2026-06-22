@@ -1,7 +1,7 @@
 export class BacklogTicketDto {
-  new: number
-  pending: number
-  resolved: number
+  new: number;
+  pending: number;
+  resolved: number;
 
   constructor(newCount: number, pendingCount: number, resolvedCount: number) {
     this.new = newCount;
