@@ -5,11 +5,11 @@
     position: relative;
 
     /* ===== Ambient glow background ===== */
-    background-color: #0d0d12;
+    background-color: #ffffff;
     background-image:
-        radial-gradient(1000px 620px at 6% -12%, rgba(123, 109, 255, 0.38), transparent 56%),
-        radial-gradient(840px 580px at 106% -6%, rgba(186, 104, 255, 0.26), transparent 56%),
-        radial-gradient(760px 660px at 92% 118%, rgba(77, 155, 255, 0.18), transparent 58%);
+        radial-gradient(1000px 620px at 6% -12%, rgba(244, 116, 70, 0.38), transparent 56%),
+        radial-gradient(840px 580px at 106% -6%, rgba(247, 136, 47, 0.26), transparent 56%),
+        radial-gradient(760px 660px at 92% 118%, rgba(255, 176, 130, 0.18), transparent 58%);
     background-attachment: fixed;
 
     /* ===== Header ===== */
@@ -22,14 +22,14 @@
         margin: 0 auto 36px;
         padding: 28px 34px;
         border-radius: 22px;
-        background: rgba(255, 255, 255, 0.045);
-        border: 1px solid rgba(255, 255, 255, 0.09);
+        background: rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.06);
         backdrop-filter: blur(20px) saturate(130%);
         -webkit-backdrop-filter: blur(20px) saturate(130%);
         box-shadow:
-            0 18px 50px rgba(0, 0, 0, 0.35),
-            0 0 60px rgba(105, 92, 254, 0.12),
-            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            0 18px 50px rgba(0, 0, 0, 0.07),
+            0 6px 18px rgba(0, 0, 0, 0.03),
+            inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
 
     .form-eyebrow {
@@ -40,14 +40,14 @@
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 1.4px;
-        color: #a99cff;
+        color: #d6481c;
         margin-bottom: 10px;
     }
 
     .form-title {
         font-size: 36px;
         font-weight: 700;
-        color: #f4f4f8;
+        color: #16181d;
         letter-spacing: -0.6px;
         line-height: 1.1;
     }
@@ -55,7 +55,7 @@
     .form-subtitle {
         margin-top: 9px;
         font-size: 15px;
-        color: #9494a0;
+        color: #6c7280;
     }
 
     .form-actions {
@@ -81,31 +81,31 @@
     }
 
     .btn-primary {
-        background: linear-gradient(135deg, #7b6dff, #5a48ff);
+        background: linear-gradient(135deg, #f47446, #d6481c);
         color: #fff;
         box-shadow:
-            0 8px 24px rgba(105, 92, 254, 0.45),
-            inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            0 8px 24px rgba(241, 91, 38, 0.28),
+            inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
 
     .btn-primary:hover {
         transform: translateY(-1px);
         box-shadow:
-            0 12px 32px rgba(105, 92, 254, 0.6),
-            inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            0 12px 32px rgba(241, 91, 38, 0.34),
+            inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
 
     .btn-ghost {
-        background: rgba(255, 255, 255, 0.04);
-        border-color: rgba(255, 255, 255, 0.12);
-        color: #c2c2cc;
+        background: rgba(0, 0, 0, 0.035);
+        border-color: rgba(0, 0, 0, 0.09);
+        color: #3f424b;
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
     }
 
     .btn-ghost:hover {
-        background: rgba(255, 255, 255, 0.08);
-        color: #f4f4f8;
+        background: rgba(0, 0, 0, 0.06);
+        color: #16181d;
     }
 
     /* ===== Two-column layout ===== */
@@ -154,20 +154,20 @@
         padding: 32px 34px 36px;
         border-radius: 22px;
         background:
-            linear-gradient(155deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.025) 52%);
-        border: 1px solid rgba(255, 255, 255, 0.12);
+            linear-gradient(155deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.02) 52%);
+        border: 1px solid rgba(0, 0, 0, 0.09);
         backdrop-filter: blur(26px) saturate(135%);
         -webkit-backdrop-filter: blur(26px) saturate(135%);
         box-shadow:
-            0 20px 50px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.14);
+            0 20px 50px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
 
     .ticket-side .form-card {
         box-shadow:
-            0 20px 50px rgba(0, 0, 0, 0.4),
-            0 0 70px rgba(123, 109, 255, 0.18),
-            inset 0 1px 0 rgba(255, 255, 255, 0.14);
+            0 20px 50px rgba(0, 0, 0, 0.08),
+            0 6px 18px rgba(0, 0, 0, 0.04),
+            inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
 
     .card-head {
@@ -188,32 +188,32 @@
     .section-title {
         font-size: 16px;
         font-weight: 600;
-        color: #f4f4f8;
+        color: #16181d;
         letter-spacing: -0.2px;
     }
 
     .section-hint {
         font-size: 13px;
         line-height: 1.45;
-        color: #76767f;
+        color: #5f6470;
     }
 
     .inc-badge {
         font-size: 12px;
         font-weight: 600;
         letter-spacing: 0.4px;
-        color: #b3a6ff;
-        background: rgba(105, 92, 254, 0.16);
-        border: 1px solid rgba(105, 92, 254, 0.32);
+        color: #d6481c;
+        background: rgba(241, 91, 38, 0.16);
+        border: 1px solid rgba(241, 91, 38, 0.32);
         padding: 5px 11px;
         border-radius: 999px;
         white-space: nowrap;
-        box-shadow: 0 0 18px rgba(105, 92, 254, 0.25);
+        box-shadow: 0 5px 14px rgba(241, 91, 38, 0.16);
     }
 
     .prop-divider {
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.08), transparent);
         margin: 26px 0;
     }
 
@@ -255,7 +255,7 @@
     .field label {
         font-size: 13px;
         font-weight: 500;
-        color: #9a9aa5;
+        color: #6c7280;
     }
 
     .field input,
@@ -264,10 +264,10 @@
         width: 100%;
         height: 48px;
         padding: 0 16px;
-        background: rgba(255, 255, 255, 0.035);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.03);
+        border: 1px solid rgba(0, 0, 0, 0.08);
         border-radius: 12px;
-        color: #f4f4f8;
+        color: #16181d;
         font-size: 14px;
         font-family: inherit;
         outline: 0;
@@ -288,21 +288,21 @@
 
     .field input::placeholder,
     .field textarea::placeholder {
-        color: #56565f;
+        color: #5f6470;
     }
 
     .field input:focus,
     .field select:focus,
     .field textarea:focus {
-        border-color: rgba(123, 109, 255, 0.7);
-        background: rgba(105, 92, 254, 0.06);
+        border-color: rgba(244, 116, 70, 0.7);
+        background: rgba(241, 91, 38, 0.06);
         box-shadow:
-            0 0 0 3px rgba(105, 92, 254, 0.2),
-            0 0 24px rgba(105, 92, 254, 0.18);
+            0 0 0 3px rgba(241, 91, 38, 0.2),
+            0 4px 12px rgba(241, 91, 38, 0.12);
     }
 
     .field input:read-only {
-        color: #8a8a95;
+        color: #5f6470;
         cursor: not-allowed;
     }
 
@@ -317,7 +317,7 @@
 
     .field select option {
         background: #16161d;
-        color: #f4f4f8;
+        color: #16181d;
     }
 
     /* ===== Segmented control (pills) ===== */
@@ -325,8 +325,8 @@
         display: flex;
         gap: 6px;
         padding: 5px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.09);
+        background: rgba(0, 0, 0, 0.03);
+        border: 1px solid rgba(0, 0, 0, 0.06);
         border-radius: 13px;
     }
 
@@ -337,7 +337,7 @@
         border: 0;
         border-radius: 9px;
         background: transparent;
-        color: #9a9aa5;
+        color: #6c7280;
         font-size: 13px;
         font-weight: 600;
         font-family: inherit;
@@ -346,16 +346,16 @@
     }
 
     .segmented button:hover {
-        color: #f4f4f8;
-        background: rgba(255, 255, 255, 0.05);
+        color: #16181d;
+        background: rgba(0, 0, 0, 0.04);
     }
 
     .segmented button.active {
         color: #fff;
-        background: linear-gradient(135deg, #7b6dff, #5a48ff);
+        background: linear-gradient(135deg, #f47446, #d6481c);
         box-shadow:
-            0 6px 16px rgba(105, 92, 254, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            0 6px 16px rgba(241, 91, 38, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
 
     /* ===== Priority badge ===== */
@@ -382,10 +382,10 @@
     }
 
     .priority-badge.empty {
-        color: #6e6e78;
+        color: #5f6470;
         font-weight: 500;
-        background: rgba(255, 255, 255, 0.03);
-        border-color: rgba(255, 255, 255, 0.08);
+        background: rgba(0, 0, 0, 0.03);
+        border-color: rgba(0, 0, 0, 0.06);
     }
 
     .priority-badge.critical {
@@ -410,14 +410,14 @@
     }
 
     .priority-badge.low {
-        color: #4d9bff;
-        background: rgba(77, 155, 255, 0.13);
-        border-color: rgba(77, 155, 255, 0.32);
-        box-shadow: inset 0 0 24px rgba(77, 155, 255, 0.12);
+        color: #f7882f;
+        background: rgba(255, 176, 130, 0.13);
+        border-color: rgba(255, 176, 130, 0.32);
+        box-shadow: inset 0 0 24px rgba(255, 176, 130, 0.12);
     }
 
     .priority-badge.planning {
-        color: #9a9aa5;
+        color: #6c7280;
         background: rgba(154, 154, 165, 0.1);
         border-color: rgba(154, 154, 165, 0.25);
     }

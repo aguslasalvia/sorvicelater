@@ -5,11 +5,11 @@
     position: relative;
 
     /* ===== Ambient glow background ===== */
-    background-color: #0d0d12;
+    background-color: #ffffff;
     background-image:
-        radial-gradient(1000px 620px at 6% -12%, rgba(123, 109, 255, 0.38), transparent 56%),
-        radial-gradient(840px 580px at 106% -6%, rgba(186, 104, 255, 0.26), transparent 56%),
-        radial-gradient(760px 660px at 92% 118%, rgba(77, 155, 255, 0.18), transparent 58%);
+        radial-gradient(1000px 620px at 6% -12%, rgba(244, 116, 70, 0.38), transparent 56%),
+        radial-gradient(840px 580px at 106% -6%, rgba(247, 136, 47, 0.26), transparent 56%),
+        radial-gradient(760px 660px at 92% 118%, rgba(255, 176, 130, 0.18), transparent 58%);
     background-attachment: fixed;
 
     .mt-header {
@@ -19,14 +19,14 @@
     .mt-title {
         font-size: 36px;
         font-weight: 700;
-        color: #f4f4f8;
+        color: #16181d;
         letter-spacing: -1px;
     }
 
     .mt-subtitle {
         margin-top: 6px;
         font-size: 15px;
-        color: #9494a0;
+        color: #6c7280;
     }
 
     /* ===== Empty state (glass) ===== */
@@ -40,14 +40,14 @@
         margin: 6vh auto 0;
         padding: 56px 40px;
         border-radius: 22px;
-        background: linear-gradient(155deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.022) 52%);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(155deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.025) 52%);
+        border: 1px solid rgba(0, 0, 0, 0.08);
         backdrop-filter: blur(24px) saturate(130%);
         -webkit-backdrop-filter: blur(24px) saturate(130%);
         box-shadow:
-            0 18px 46px rgba(0, 0, 0, 0.35),
-            0 0 60px rgba(123, 109, 255, 0.12),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            0 18px 46px rgba(0, 0, 0, 0.07),
+            0 6px 18px rgba(0, 0, 0, 0.03),
+            inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
 
     .mt-empty-icon {
@@ -58,22 +58,22 @@
         height: 64px;
         margin-bottom: 6px;
         border-radius: 18px;
-        color: #b3a6ff;
-        background: rgba(105, 92, 254, 0.14);
-        border: 1px solid rgba(105, 92, 254, 0.3);
-        box-shadow: 0 0 30px rgba(105, 92, 254, 0.25);
+        color: #d6481c;
+        background: rgba(241, 91, 38, 0.14);
+        border: 1px solid rgba(241, 91, 38, 0.3);
+        box-shadow: 0 6px 18px rgba(241, 91, 38, 0.16);
     }
 
     .mt-empty-title {
         font-size: 19px;
         font-weight: 600;
-        color: #f4f4f8;
+        color: #16181d;
     }
 
     .mt-empty-text {
         font-size: 14px;
         line-height: 1.55;
-        color: #8a8a95;
+        color: #5f6470;
     }
 
     .mt-empty-btn {
@@ -84,22 +84,22 @@
         height: 44px;
         padding: 0 22px;
         border-radius: 12px;
-        background: linear-gradient(135deg, #7b6dff, #5a48ff);
+        background: linear-gradient(135deg, #f47446, #d6481c);
         color: #fff;
         font-size: 14px;
         font-weight: 600;
         text-decoration: none;
         box-shadow:
-            0 8px 24px rgba(105, 92, 254, 0.45),
-            inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            0 8px 24px rgba(241, 91, 38, 0.28),
+            inset 0 1px 0 rgba(255, 255, 255, 0.35);
         transition: transform 0.15s ease, box-shadow 0.2s ease;
     }
 
     .mt-empty-btn:hover {
         transform: translateY(-1px);
         box-shadow:
-            0 12px 32px rgba(105, 92, 254, 0.6),
-            inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            0 12px 32px rgba(241, 91, 38, 0.34),
+            inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
 
     @media (max-width: 768px) {

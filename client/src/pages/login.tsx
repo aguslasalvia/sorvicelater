@@ -2,9 +2,10 @@ import "styles/login.css";
 
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { Clock5, User, LockKeyhole } from "lucide-react";
+import { User, LockKeyhole } from "lucide-react";
 import { loginForm } from "@/lib/forms";
 import { fetchLogin } from "@/lib/fetch";
+import faviconUrl from "@/assets/favicon.png";
 
 export default function Login() {
   const [formLogin, setFormLogin] = useState(loginForm);
@@ -24,7 +25,7 @@ export default function Login() {
     <div className="page-login">
       <form className="loginCard" onSubmit={handleSubmit}>
         <div className="logoMark">
-          <Clock5 size={28} />
+          <img src={faviconUrl} alt="SorvisLater" />
         </div>
         <p className="title">
           Sorvis<span>Later</span>

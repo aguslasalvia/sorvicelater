@@ -18,14 +18,18 @@ export default function App() {
         toastOptions={{
           duration: 4000,
           style: {
-            background: "#1f1f1f",
-            color: "#fff",
+            background: "#ffffff",
+            color: "#16181d",
             fontFamily: "Poppins",
             fontSize: "0.85rem",
-            border: "1px solid #2a2a2a",
+            fontWeight: 500,
+            padding: "12px 16px",
+            borderRadius: "12px",
+            border: "1px solid rgba(0, 0, 0, 0.08)",
+            boxShadow: "0 12px 32px rgba(0, 0, 0, 0.1)",
           },
-          success: { iconTheme: { primary: "#695cfe", secondary: "#fff" } },
-          error: { iconTheme: { primary: "#ff5c5c", secondary: "#fff" } },
+          success: { iconTheme: { primary: "#f15b26", secondary: "#fff" } },
+          error: { iconTheme: { primary: "#ef4444", secondary: "#fff" } },
         }}
       />
       <Routes>

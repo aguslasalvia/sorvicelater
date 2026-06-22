@@ -16,23 +16,23 @@
     color: inherit;
     cursor: pointer;
     border-radius: 18px;
-    background: linear-gradient(155deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.025) 52%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(155deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.02) 52%);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     backdrop-filter: blur(22px) saturate(130%);
     -webkit-backdrop-filter: blur(22px) saturate(130%);
     box-shadow:
-        0 16px 40px rgba(0, 0, 0, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 16px 40px rgba(0, 0, 0, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
     transition: transform 0.18s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .ticket-card:hover {
     transform: translateY(-3px);
-    border-color: rgba(123, 109, 255, 0.4);
+    border-color: rgba(244, 116, 70, 0.4);
     box-shadow:
-        0 22px 50px rgba(0, 0, 0, 0.4),
-        0 0 40px rgba(123, 109, 255, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        0 22px 50px rgba(0, 0, 0, 0.08),
+        0 6px 18px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .ticket-card__top {
@@ -46,9 +46,9 @@
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.4px;
-    color: #b3a6ff;
-    background: rgba(105, 92, 254, 0.16);
-    border: 1px solid rgba(105, 92, 254, 0.3);
+    color: #d6481c;
+    background: rgba(241, 91, 38, 0.16);
+    border: 1px solid rgba(241, 91, 38, 0.3);
     padding: 4px 10px;
     border-radius: 999px;
 }
@@ -63,9 +63,9 @@
 }
 
 .status-pill.tone-new {
-    color: #b3a6ff;
-    background: rgba(105, 92, 254, 0.14);
-    border-color: rgba(105, 92, 254, 0.3);
+    color: #d6481c;
+    background: rgba(241, 91, 38, 0.14);
+    border-color: rgba(241, 91, 38, 0.3);
 }
 
 .status-pill.tone-pending {
@@ -83,7 +83,7 @@
 .ticket-card__title {
     font-size: 17px;
     font-weight: 600;
-    color: #f4f4f8;
+    color: #16181d;
     line-height: 1.35;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -96,11 +96,11 @@
     flex-direction: column;
     gap: 6px;
     font-size: 13px;
-    color: #c4c4cc;
+    color: #3f424b;
 }
 
 .ticket-card__meta .muted {
-    color: #76767f;
+    color: #5f6470;
     margin-right: 4px;
 }
 

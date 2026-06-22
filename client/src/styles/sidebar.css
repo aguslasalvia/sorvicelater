@@ -1,7 +1,7 @@
 :root {
     --body-color: #0a0a0f;
     --sidebar-color: #141419;
-    --primary-color: #695cfe;
+    --primary-color: #f15b26;
     --text-color: #8a8a95;
     --tran: all 0.25s ease;
 
@@ -53,7 +53,7 @@
 }
 
 .collapse-btn:hover {
-    background: rgba(105, 92, 254, 0.14);
+    background: rgba(241, 91, 38, 0.14);
     color: var(--primary-color);
 }
 
@@ -117,13 +117,13 @@
     gap: 4px;
     border: 0;
     border-radius: 12px;
-    background: linear-gradient(135deg, #7b6dff, #5a48ff);
+    background: linear-gradient(135deg, #f47446, #d6481c);
     color: #fff;
     font-family: inherit;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 8px 22px rgba(105, 92, 254, 0.4);
+    box-shadow: 0 8px 22px rgba(241, 91, 38, 0.4);
     transition: filter 0.18s ease, transform 0.15s ease;
 }
 
@@ -198,7 +198,7 @@
 }
 
 .new-menu a:hover {
-    background: rgba(105, 92, 254, 0.16);
+    background: rgba(241, 91, 38, 0.16);
     color: #fff;
 }
 
@@ -241,7 +241,7 @@
 }
 
 .sidebar li a:hover {
-    background-color: rgba(105, 92, 254, 0.14);
+    background-color: rgba(241, 91, 38, 0.14);
 }
 
 .sidebar li a:hover .icon,
@@ -251,7 +251,7 @@
 
 /* active route */
 .sidebar li a.active {
-    background-color: rgba(105, 92, 254, 0.16);
+    background-color: rgba(241, 91, 38, 0.16);
 }
 
 .sidebar li a.active .icon,

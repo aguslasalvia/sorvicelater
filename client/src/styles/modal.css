@@ -22,8 +22,8 @@
     padding: 30px 32px;
     border-radius: 20px;
     background: linear-gradient(165deg, rgba(30, 30, 38, 0.98), rgba(20, 20, 26, 0.98));
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
     animation: modalIn 0.2s ease;
 }
 
@@ -38,15 +38,15 @@
     height: 34px;
     border: 0;
     border-radius: 9px;
-    background: rgba(255, 255, 255, 0.05);
-    color: #9a9aa5;
+    background: rgba(0, 0, 0, 0.04);
+    color: #6c7280;
     cursor: pointer;
     transition: background 0.15s ease, color 0.15s ease;
 }
 
 .modal__close:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #f4f4f8;
+    background: rgba(0, 0, 0, 0.08);
+    color: #16181d;
 }
 
 .modal__header {
@@ -55,7 +55,7 @@
 }
 
 .modal__body {
-    color: #c4c4cc;
+    color: #3f424b;
     font-size: 14px;
     line-height: 1.6;
 }
