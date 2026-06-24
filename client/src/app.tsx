@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router";
 import { Toaster } from "react-hot-toast";
 import UserLayout from "./layouts/user-layout";
+import RequireAuth from "./components/RequireAuth/require-auth";
 import Login from "./pages/login";
 import Backlog from "./pages/backlog";
 import NewTicket from "./pages/new-ticket";
@@ -34,14 +35,16 @@ export default function App() {
       />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route element={<UserLayout />}>
-          <Route path="/backlog" element={<Backlog />} />
-          <Route path="/new/ticket" element={<NewTicket />} />
-          <Route path="/new/knowledge" element={<NewKnowledge />} />
-          <Route path="/lists/knowledge" element={<KnowledgeList />} />
-          <Route path="/lists/all-tickets" element={<Incidents />} />
-          <Route path="/lists/my-tickets" element={<MyTickets />} />
-          <Route path="/ticket/:id" element={<TicketDetail />} />
+        <Route element={<RequireAuth />}>
+          <Route element={<UserLayout />}>
+            <Route path="/backlog" element={<Backlog />} />
+            <Route path="/new/ticket" element={<NewTicket />} />
+            <Route path="/new/knowledge" element={<NewKnowledge />} />
+            <Route path="/lists/knowledge" element={<KnowledgeList />} />
+            <Route path="/lists/all-tickets" element={<Incidents />} />
+            <Route path="/lists/my-tickets" element={<MyTickets />} />
+            <Route path="/ticket/:id" element={<TicketDetail />} />
+          </Route>
         </Route>
       </Routes>
     </>

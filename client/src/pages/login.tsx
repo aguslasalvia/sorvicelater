@@ -1,7 +1,8 @@
 import "styles/login.css";
 
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
+import { storage } from "@/lib/storage";
 import { User, LockKeyhole } from "lucide-react";
 import { loginForm } from "@/lib/forms";
 import { fetchLogin } from "@/lib/fetch";
@@ -10,6 +11,11 @@ import faviconUrl from "@/assets/favicon.png";
 export default function Login() {
   const [formLogin, setFormLogin] = useState(loginForm);
   const navigate = useNavigate();
+
+  const token = storage.get("token") ?? localStorage.getItem("token");
+  if (token) {
+    return <Navigate to="/backlog" replace />;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
