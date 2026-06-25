@@ -14,6 +14,7 @@
 
 body {
     min-height: 100vh;
+    min-height: 100dvh;
     background-color: #ffffff;
 }
 
@@ -39,4 +40,30 @@ body {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.06);
 
     background-color: #f15b26;
+}
+
+@media (max-width: 768px) {
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 6px;
+    }
+
+    /* Soften the ambient orange gradient on mobile so it reads as a subtle
+       background wash instead of an intense band over the header. */
+    .content.page-backlog,
+    .content.page-incidents,
+    .content.page-kbarticle,
+    .content.page-kblist,
+    .content.page-mytickets,
+    .content.page-ticket,
+    .content.page-ticketdetail {
+        background-image:
+            radial-gradient(680px 460px at 0% -12%, rgba(244, 116, 70, 0.16), transparent 60%),
+            radial-gradient(600px 440px at 112% -6%, rgba(247, 136, 47, 0.11), transparent 60%),
+            radial-gradient(560px 500px at 92% 116%, rgba(255, 176, 130, 0.08), transparent 62%);
+    }
 }

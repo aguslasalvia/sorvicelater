@@ -1,5 +1,6 @@
 import "./ticket-card.css";
 import { Link } from "react-router";
+import { ArrowRight } from "lucide-react";
 import { Ticket } from "@/lib/interfaces";
 import { TicketStatus, statusLabel } from "@/lib/constants";
 
@@ -26,15 +27,21 @@ const TicketCard = ({ tickets }: TicketCardProps) => {
 					</div>
 
 					<p className="ticket-card__title">
-						{item.service_offering || "Untitled incident"}
+						{item.description || item.service_offering || "Untitled incident"}
 					</p>
 
-					<div className="ticket-card__meta">
-						<span>
-							<span className="muted">For</span> {item.request_for || "—"}
-						</span>
-						<span>
-							<span className="muted">Assignee</span> {item.assigned || "Unassigned"}
+					<div className="ticket-card__footer">
+						<div className="ticket-card__meta">
+							<span>
+								<span className="muted">For</span> {item.request_for || "—"}
+							</span>
+							<span>
+								<span className="muted">Assignee</span>{" "}
+								{item.assigned || "Unassigned"}
+							</span>
+						</div>
+						<span className="ticket-card__arrow" aria-hidden="true">
+							<ArrowRight size={16} />
 						</span>
 					</div>
 				</Link>

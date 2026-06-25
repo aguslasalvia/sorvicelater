@@ -16,10 +16,8 @@
     color: inherit;
     cursor: pointer;
     border-radius: 18px;
-    background: linear-gradient(155deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.02) 52%);
+    background: linear-gradient(155deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.84) 52%);
     border: 1px solid rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(22px) saturate(130%);
-    -webkit-backdrop-filter: blur(22px) saturate(130%);
     box-shadow:
         0 16px 40px rgba(0, 0, 0, 0.07),
         inset 0 1px 0 rgba(255, 255, 255, 0.35);
@@ -91,17 +89,47 @@
     overflow: hidden;
 }
 
+.ticket-card__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+}
+
 .ticket-card__meta {
     display: flex;
     flex-direction: column;
     gap: 6px;
     font-size: 13px;
     color: #3f424b;
+    min-width: 0;
 }
 
 .ticket-card__meta .muted {
     color: #5f6470;
     margin-right: 4px;
+}
+
+.ticket-card__arrow {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    color: #8a8f99;
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.ticket-card:hover .ticket-card__arrow {
+    color: #d6481c;
+    background: rgba(241, 91, 38, 0.12);
+    border-color: rgba(241, 91, 38, 0.28);
+    transform: translateX(3px);
 }
 
 @media (max-width: 768px) {

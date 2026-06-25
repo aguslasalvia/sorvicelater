@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import { Inbox, Plus } from "lucide-react";
 import TicketCard from "@/components/Ticket/TicketCard/ticket-card";
 import SearchBar from "@/components/SearchBar/search-bar";
+import LoadingState from "@/components/LoadingState/loading-state";
 import { fetchAllTickets } from "@/lib/fetch";
 import { Ticket } from "@/lib/interfaces";
 import { STATE_OPTIONS, TicketStatus } from "@/lib/constants";
@@ -13,10 +14,12 @@ const Incidents = () => {
 	const [tickets, setTickets] = useState<Ticket[]>([]);
 	const [stateFilter, setStateFilter] = useState<TicketStatus | "">("");
 	const [query, setQuery] = useState("");
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const getTickets = async () => {
 			setTickets(await fetchAllTickets());
+			setLoading(false);
 		};
 		getTickets();
 	}, []);
@@ -66,7 +69,9 @@ const Incidents = () => {
 				placeholder="Search incidents by description, category, assignee…"
 			/>
 
-			{filteredTickets.length === 0 ? (
+			{loading ? (
+				<LoadingState label="Loading incidents…" />
+			) : filteredTickets.length === 0 ? (
 				<div className="inc-empty">
 					<div className="inc-empty-icon">
 						<Inbox size={30} />

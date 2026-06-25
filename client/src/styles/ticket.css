@@ -10,7 +10,6 @@
         radial-gradient(1000px 620px at 6% -12%, rgba(244, 116, 70, 0.38), transparent 56%),
         radial-gradient(840px 580px at 106% -6%, rgba(247, 136, 47, 0.26), transparent 56%),
         radial-gradient(760px 660px at 92% 118%, rgba(255, 176, 130, 0.18), transparent 58%);
-    background-attachment: fixed;
 
     /* ===== Header ===== */
     .form-header {
@@ -24,8 +23,6 @@
         border-radius: 22px;
         background: rgba(0, 0, 0, 0.04);
         border: 1px solid rgba(0, 0, 0, 0.06);
-        backdrop-filter: blur(20px) saturate(130%);
-        -webkit-backdrop-filter: blur(20px) saturate(130%);
         box-shadow:
             0 18px 50px rgba(0, 0, 0, 0.07),
             0 6px 18px rgba(0, 0, 0, 0.03),
@@ -95,12 +92,19 @@
             inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
 
+    .btn-primary:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow:
+            0 8px 24px rgba(241, 91, 38, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+
     .btn-ghost {
         background: rgba(0, 0, 0, 0.035);
         border-color: rgba(0, 0, 0, 0.09);
         color: #3f424b;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
     }
 
     .btn-ghost:hover {
@@ -156,8 +160,6 @@
         background:
             linear-gradient(155deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.02) 52%);
         border: 1px solid rgba(0, 0, 0, 0.09);
-        backdrop-filter: blur(26px) saturate(135%);
-        -webkit-backdrop-filter: blur(26px) saturate(135%);
         box-shadow:
             0 20px 50px rgba(0, 0, 0, 0.08),
             inset 0 1px 0 rgba(255, 255, 255, 0.35);

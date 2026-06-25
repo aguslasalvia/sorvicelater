@@ -36,7 +36,7 @@ const Navbar = () => {
 						<PanelLeft size={20} />
 					</button>
 				</div>
-				<MenuBar onNavigate={closeSidebar} />
+				<MenuBar onNavigate={closeSidebar} sidebarOpen={isSidebarOpen} />
 			</nav>
 		</>
 	)

@@ -5,9 +5,10 @@ import Menu from './menu'
 
 interface MenuBarProps {
 	onNavigate?: () => void
+	sidebarOpen?: boolean
 }
 
-const MenuBar = ({ onNavigate }: MenuBarProps) => {
+const MenuBar = ({ onNavigate, sidebarOpen }: MenuBarProps) => {
 	const handleLogout = () => {
 		storage.remove("token");
 		storage.remove("username");
@@ -16,7 +17,7 @@ const MenuBar = ({ onNavigate }: MenuBarProps) => {
 
 	return (
 		<div className="menu-bar">
-			<Menu onNavigate={onNavigate} />
+			<Menu onNavigate={onNavigate} sidebarOpen={sidebarOpen} />
 			<div className="bottom-content">
 				<li>
 					<Link to="/" title="Logout" onClick={handleLogout}>

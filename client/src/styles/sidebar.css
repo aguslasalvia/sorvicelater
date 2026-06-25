@@ -296,6 +296,7 @@
     top: 0;
     left: var(--sidebar-w);
     height: 100vh;
+    height: 100dvh;
     width: calc(100% - var(--sidebar-w));
     background-color: var(--body-color);
     transition: var(--tran);
@@ -359,6 +360,7 @@
     .sidebar.close ~ .content {
         left: 0;
         width: 100%;
+        height: 100dvh;
         padding-top: 64px;
     }
 

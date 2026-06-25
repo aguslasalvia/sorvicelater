@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -9,7 +9,7 @@ import {
   fetchCreateTicket,
   fetchUpdateTicket,
 } from "@/lib/fetch";
-import { STATE_OPTIONS, TicketStatus } from "@/lib/constants";
+import { STATE_OPTIONS, TicketStatus, statusLabel } from "@/lib/constants";
 
 interface TicketFormProps {
   props: Ticket;
@@ -46,6 +46,8 @@ const TicketForm = ({ props, onSaved, onCancel }: TicketFormProps) => {
   const [admins, setAdmins] = useState<User[]>([]);
   const [knowledges, setKnowledge] = useState<Knowledge[]>([]);
   const [ticket, setTicket] = useState(props);
+  const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const isEdit = props.id !== undefined;
 
@@ -77,15 +79,23 @@ const TicketForm = ({ props, onSaved, onCancel }: TicketFormProps) => {
       (f) => !String(ticket[f.key] ?? "").trim(),
     );
     if (missing.length) {
-      toast.error(`Missing required fields: ${missing.map((f) => f.label).join(", ")}`);
+      toast.error(
+        `Missing required fields: ${missing.map((f) => f.label).join(", ")}`,
+      );
       return;
     }
 
-    if (isEdit && ticket.id !== undefined) {
-      const result = await fetchUpdateTicket(ticket.id, ticket);
-      if (result) onSaved?.();
-    } else {
-      await fetchCreateTicket(ticket);
+    setSubmitting(true);
+    try {
+      if (isEdit && ticket.id !== undefined) {
+        const result = await fetchUpdateTicket(ticket.id, ticket);
+        if (result && result !== 401) onSaved?.();
+      } else {
+        const result = await fetchCreateTicket(ticket);
+        if (result && typeof result === "object") navigate("/backlog");
+      }
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -124,8 +134,13 @@ const TicketForm = ({ props, onSaved, onCancel }: TicketFormProps) => {
             className="btn-primary"
             type="button"
             onClick={handleSubmit}
+            disabled={submitting}
           >
-            {isEdit ? "Save changes" : "Save incident"}
+            {submitting
+              ? "Saving…"
+              : isEdit
+                ? "Save changes"
+                : "Save incident"}
           </button>
         </div>
       </header>
@@ -274,7 +289,9 @@ const TicketForm = ({ props, onSaved, onCancel }: TicketFormProps) => {
               <div className="card-head-text">
                 <p className="section-title">Properties</p>
               </div>
-              <span className="inc-badge">INC · new</span>
+              <span className="inc-badge">
+                INC · {isEdit ? statusLabel(ticket.status) : "New"}
+              </span>
             </div>
 
             <div className="field">

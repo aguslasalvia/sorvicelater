@@ -24,13 +24,14 @@ const links: NavItem[] = [
 
 interface MenuProps {
   onNavigate?: () => void;
+  sidebarOpen?: boolean;
 }
 
-const Menu = ({ onNavigate }: MenuProps) => {
+const Menu = ({ onNavigate, sidebarOpen }: MenuProps) => {
   return (
     <div className="menu">
       {/* Primary create action */}
-      <NewButton onNavigate={onNavigate} />
+      <NewButton onNavigate={onNavigate} sidebarOpen={sidebarOpen} />
 
       {/* <!-- Searchbox --> */}
       <li className="search-box" title="Search">

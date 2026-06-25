@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { Inbox, Clock, CircleCheck, type LucideIcon } from "lucide-react";
+import { Inbox, Clock, CircleCheck, type LucideIcon, Eye } from "lucide-react";
 import {
   fetchTicketStateCounters,
   fetchAllTickets,
@@ -182,6 +182,9 @@ const Counters = () => {
                 >
                   {statusLabel(t.status as TicketStatus)}
                 </span>
+                <a href={`/ticket/${t.id}`} className="bl-row__link">
+                  <Eye />
+                </a>
               </li>
             ))}
           </ul>

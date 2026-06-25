@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
 import { Plus, SquarePen, BookPlus } from "lucide-react";
 
 interface NewButtonProps {
 	onNavigate?: () => void;
+	sidebarOpen?: boolean;
 }
 
-const NewButton = ({ onNavigate }: NewButtonProps) => {
+const NewButton = ({ onNavigate, sidebarOpen }: NewButtonProps) => {
 	const [open, setOpen] = useState(false);
+
+	// Collapse the submenu whenever the sidebar closes (e.g. mobile drawer
+	// dismissed via backdrop/hamburger), so it isn't left open underneath.
+	useEffect(() => {
+		if (!sidebarOpen) setOpen(false);
+	}, [sidebarOpen]);
 
 	const handlePick = () => {
 		setOpen(false);

@@ -1,9 +1,10 @@
 import "styles/kblist.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { Plus, Pencil } from "lucide-react";
+import { Plus, Pencil, BookOpen } from "lucide-react";
 import { KnowledgeCard } from "@/components/Knowledge/KnowledgeCard/knowledge-card";
 import SearchBar from "@/components/SearchBar/search-bar";
+import LoadingState from "@/components/LoadingState/loading-state";
 import Modal from "@/components/Modal/modal";
 import { fetchAllKnowledge, fetchUpdateKnowledge } from "@/lib/fetch";
 import { Knowledge } from "@/lib/interfaces";
@@ -11,6 +12,7 @@ import { Knowledge } from "@/lib/interfaces";
 const KnowledgeList = () => {
 	const [list, setList] = useState<Knowledge[]>([]);
 	const [query, setQuery] = useState("");
+	const [loading, setLoading] = useState(true);
 	const [selected, setSelected] = useState<Knowledge | null>(null);
 	const [editing, setEditing] = useState(false);
 	const [draft, setDraft] = useState({ title: "", description: "" });
@@ -18,6 +20,7 @@ const KnowledgeList = () => {
 	useEffect(() => {
 		const getAllKnowledge = async () => {
 			setList(await fetchAllKnowledge());
+			setLoading(false);
 		};
 		getAllKnowledge();
 	}, []);
@@ -71,10 +74,29 @@ const KnowledgeList = () => {
 				placeholder="Search articles by title…"
 			/>
 
-			{filtered.length === 0 ? (
-				<p className="kb-empty">
-					{query !== "" ? "No articles match your search." : "No articles yet."}
-				</p>
+			{loading ? (
+				<LoadingState label="Loading articles…" />
+			) : filtered.length === 0 ? (
+				<div className="kb-empty">
+					<div className="kb-empty-icon">
+						<BookOpen size={30} />
+					</div>
+					<p className="kb-empty-title">
+						{query !== ""
+							? "No articles match your search"
+							: "No articles yet"}
+					</p>
+					<p className="kb-empty-text">
+						{query !== ""
+							? "Try a different term or clear the search."
+							: "Documented solutions will show up here."}
+					</p>
+					{query === "" && (
+						<Link to="/new/knowledge" className="kb-empty-btn">
+							<Plus size={16} /> New KB
+						</Link>
+					)}
+				</div>
 			) : (
 				<div className="resultsWrapper">
 					{filtered.map((element: Knowledge, index) => (

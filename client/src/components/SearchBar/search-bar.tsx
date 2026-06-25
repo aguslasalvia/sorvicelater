@@ -1,5 +1,5 @@
 import "styles/searchbar.css";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 
 interface SearchBarProps {
 	value: string;
@@ -18,6 +18,16 @@ const SearchBar = ({ value, onChange, placeholder = "Search…" }: SearchBarProp
 				placeholder={placeholder}
 				onChange={(e) => onChange(e.target.value)}
 			/>
+			{value && (
+				<button
+					type="button"
+					className="searchbar__clear"
+					aria-label="Clear search"
+					onClick={() => onChange("")}
+				>
+					<X size={16} />
+				</button>
+			)}
 		</div>
 	);
 };
