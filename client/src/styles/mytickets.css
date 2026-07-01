@@ -142,3 +142,15 @@
         }
     }
 }
+
+.mt-limit-badge {
+    display: inline-block;
+    margin: 4px 0 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #d6481c;
+    background-color: #fce4d8;
+    border: 1px solid #d6481c;
+    border-radius: 8px;
+}

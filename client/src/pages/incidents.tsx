@@ -5,7 +5,7 @@ import { Inbox, Plus } from "lucide-react";
 import TicketCard from "@/components/Ticket/TicketCard/ticket-card";
 import SearchBar from "@/components/SearchBar/search-bar";
 import LoadingState from "@/components/LoadingState/loading-state";
-import { fetchAllTickets } from "@/lib/fetch";
+import { fetchTickets } from "@/lib/fetch";
 import { Ticket } from "@/lib/interfaces";
 import { STATE_OPTIONS, TicketStatus } from "@/lib/constants";
 import { ticketMatchesQuery } from "@/lib/search";
@@ -18,7 +18,7 @@ const Incidents = () => {
 
   useEffect(() => {
     const getTickets = async () => {
-      setTickets(await fetchAllTickets());
+      setTickets(await fetchTickets());
       setLoading(false);
     };
     getTickets();
@@ -68,6 +68,10 @@ const Incidents = () => {
         onChange={setQuery}
         placeholder="Search incidents by description, category, assignee…"
       />
+
+      <span className="inc-limit-badge">
+        Only the last 15 incidents are shown
+      </span>
 
       {loading ? (
         <LoadingState label="Loading incidents…" />
