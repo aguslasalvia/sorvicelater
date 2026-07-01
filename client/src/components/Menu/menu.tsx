@@ -4,6 +4,7 @@ import {
   UserRound,
   BookMarked,
   BarChart3,
+  Tags,
   Search,
   type LucideIcon,
 } from "lucide-react";
@@ -20,6 +21,7 @@ const links: NavItem[] = [
   { href: "/lists/all-tickets", icon: Archive, text: "Incidents" },
   { href: "/lists/my-tickets", icon: UserRound, text: "My incidents" },
   { href: "/lists/knowledge", icon: BookMarked, text: "KB articles" },
+  { href: "/categories", icon: Tags, text: "Categories" },
 ];
 
 interface MenuProps {
