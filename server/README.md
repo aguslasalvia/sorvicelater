@@ -1,21 +1,18 @@
 # 🪺 SorvisLater — NestJS API
 
-A modern rewrite of the **SorvisLater** back-end using **NestJS 11**, **TypeORM** and **SQLite** (`better-sqlite3`). It exposes RESTful CRUD resources for users, tickets and knowledge base articles.
-
-> 🔄 **Work in progress.** The API was originally built with Express (see [`../express`](../express)) and is currently **being ported to NestJS**. This rewrite will eventually replace the Express implementation.
+The **SorvisLater** back-end, built with **NestJS 11**, **TypeORM** and **SQLite** (`better-sqlite3`). It exposes JWT-protected REST resources for users, tickets, categories and knowledge base articles, plus email notifications.
 
 ---
 
 ## 🧰 Tech Stack
 
 - **NestJS 11** (`@nestjs/common`, `@nestjs/core`, `@nestjs/platform-express`)
-- **TypeORM** (`@nestjs/typeorm`)
-- **better-sqlite3** — local `db.sqlite` database
-- **TypeScript 5.7**
-- **Jest** — unit + e2e tests
-- **ESLint** + **Prettier**
+- **TypeORM** (`@nestjs/typeorm`) + **better-sqlite3** — local `db.sqlite`
+- **Auth:** `@nestjs/jwt` + `passport-jwt`, `bcrypt` for password hashing
+- **Notifications:** `@nestjs-modules/mailer` + `nodemailer` + **Handlebars** templates
+- **TypeScript 5.7**, **Jest**, **ESLint** + **Prettier**
 
-The database connection is configured in `app.module.ts` with `synchronize: true`, so entities are auto-migrated into `db.sqlite` on startup.
+The database connection is configured in `app.module.ts` with `synchronize: true`, so entities are auto-migrated into `db.sqlite` on startup (re-seed after schema changes).
 
 ---
 
@@ -27,26 +24,17 @@ Each domain is a self-contained Nest module (controller + service + entity + DTO
 src/
 ├── main.ts                 # Bootstraps the Nest app
 ├── app.module.ts          # Root module + TypeORM config
-├── app.controller.ts
-├── app.service.ts
-├── user/
-│   ├── user.module.ts
-│   ├── user.controller.ts
-│   ├── user.service.ts
-│   ├── dto/
-│   └── entities/user.entity.ts
-├── ticket/
-│   ├── ticket.module.ts
-│   ├── ticket.controller.ts
-│   ├── ticket.service.ts
-│   ├── dto/
-│   └── entities/ticket.entity.ts
-└── knowledge/
-    ├── knowledge.module.ts
-    ├── knowledge.controller.ts
-    ├── knowledge.service.ts
-    ├── dto/
-    └── entities/knowledge.entity.ts
+├── seed.ts                 # Seed script (npm run seed)
+├── auth/                   # Login + JWT strategy + JwtAuthGuard
+├── user/                   # Users
+├── ticket/                 # Tickets / incidents
+├── category/               # Incident categories
+├── knowledge/              # Knowledge base
+└── notifications/          # Email notifications
+    ├── notifications.service.ts
+    ├── templates/          # Handlebars email templates (.hbs)
+    ├── assets/             # Embedded logo (CID)
+    └── dto/
 ```
 
 ---
@@ -54,24 +42,34 @@ src/
 ## 🗃️ Entities
 
 - **User** (`users`) — `id`, `name`, `username`, `first_name`, `email`, `password`, timestamps
-- **Ticket** (`tickets`) — `id`, `request_by`, `request_for`, `service_offering`, `item`, `contact_type`, `status`, `assigned` (→ User), `category`, `symptom`, `impact`, `urgency`, `priority`, timestamps
+- **Category** (`categories`) — `id`, `name`
+- **Ticket** (`tickets`) — `id`, `request_by`, `request_for`, `service_offering`, `item`, `contact_type`, `status`, `symptom`, `impact`, `urgency`, `priority`, `description`, `assigned_id` (→ **User**), `category_id` (→ **Category**), `kb` (→ **Knowledge**), timestamps, `resolved_at`
 - **Knowledge** (`knowledge`) — `id`, `title`, `description`
+
+> Assignment and category are **foreign keys**; list/detail queries load the related `assigned_user` and `category` objects.
+
+---
+
+## 🔐 Auth
+
+- `POST /auth/platform` — login; returns `{ username, token }` (a JWT).
+- Protected routes use `@UseGuards(JwtAuthGuard)`. The strategy puts `{ id, username }` on `request.user`; read it in a handler with `@Req() req` → `req.user.id`.
 
 ---
 
 ## 🔌 API Endpoints
 
-Each resource exposes the standard REST CRUD surface:
+Standard REST CRUD per resource (`user`, `ticket`, `category`, `knowledge`):
 
-| Method | Path             | Description        |
-| ------ | ---------------- | ------------------ |
-| POST   | `/<resource>`    | Create             |
-| GET    | `/<resource>`    | List all           |
-| GET    | `/<resource>/:id`| Get one            |
-| PATCH  | `/<resource>/:id`| Update             |
-| DELETE | `/<resource>/:id`| Delete             |
+| Method | Path              | Description |
+| ------ | ----------------- | ----------- |
+| POST   | `/<resource>`     | Create      |
+| GET    | `/<resource>`     | List all    |
+| GET    | `/<resource>/:id` | Get one     |
+| PATCH  | `/<resource>/:id` | Update      |
+| DELETE | `/<resource>/:id` | Delete      |
 
-Available resources: **`user`**, **`ticket`**, **`knowledge`**.
+Notable ticket routes: `GET /ticket/backlog`, `GET /ticket/last`, `GET /ticket/efficiency`, `GET /ticket/assigned` (tickets for the current user).
 
 ---
 
@@ -79,9 +77,17 @@ Available resources: **`user`**, **`ticket`**, **`knowledge`**.
 
 ```env
 PORT=3000
+JWT_SECRET=your_secret
+
+# Email notifications (optional)
+MAIL_HOST=smtp.example.com
+MAIL_PORT=587
+MAIL_USER=your_user
+MAIL_PASS=your_pass
+MAIL_FROM=SorvisLater <no-reply@sorvicelater.com>
 ```
 
-Defaults to port `3000`. The SQLite database file (`db.sqlite`) is created automatically in the project root.
+The SQLite database file (`db.sqlite`) is created automatically in the project root.
 
 ---
 
@@ -90,6 +96,9 @@ Defaults to port `3000`. The SQLite database file (`db.sqlite`) is created autom
 ```bash
 # install dependencies
 npm install
+
+# seed demo data (user, categories, KB, tickets)
+npm run seed
 
 # development (watch mode)
 npm run start:dev

@@ -1,6 +1,6 @@
 # 🎫 SorvisLater — React Client
 
-The front-end for **SorvisLater**, an IT ticketing system for Minecraft servers inspired by ServiceNow. This is a single-page application built with **React 19**, **React Router 7** and **Vite 7**.
+The front-end for **SorvisLater**, an IT service-desk / ticketing system inspired by ServiceNow. A single-page application built with **React 19**, **React Router 7** and **Vite**.
 
 ---
 
@@ -8,9 +8,10 @@ The front-end for **SorvisLater**, an IT ticketing system for Minecraft servers 
 
 - **React 19** + **React DOM 19**
 - **React Router 7** — client-side routing
-- **Vite 7** — dev server and bundler
+- **Vite** — dev server and bundler
 - **TypeScript 5.9**
 - **lucide-react** — icon set
+- **react-hot-toast** — toasts
 - **Bun** — package manager (`bun.lock`)
 
 ---
@@ -21,19 +22,24 @@ The front-end for **SorvisLater**, an IT ticketing system for Minecraft servers 
 src/
 ├── app.tsx                 # Route definitions
 ├── main.tsx                # App entry point
-├── assets/                 # Static assets (SVGs)
+├── assets/                 # Static assets (favicon, SVGs)
 ├── components/             # Reusable UI components
 │   ├── Counters/           # Ticket state counters
 │   ├── Knowledge/          # Knowledge base card + form
-│   ├── Menu/               # Menu bar
-│   ├── Navbar/             # Top navigation
+│   ├── Menu/               # Sidebar (nav links live here)
+│   ├── Modal/              # Modal dialog
+│   ├── LoadingState/       # Loading placeholder
+│   ├── RequireAuth/        # Auth guard for routes
+│   ├── SearchBar/          # Search input
 │   └── Ticket/             # Ticket card + form
 ├── layouts/
 │   └── user-layout.tsx     # Shared layout for authenticated views
 ├── lib/
-│   ├── fetch.ts            # API client (calls the backend)
-│   ├── forms.ts            # Form helpers
-│   └── interfaces.ts       # Shared TypeScript types
+│   ├── fetch.ts            # API client (authHeaders() attaches the JWT)
+│   ├── forms.ts            # Empty form defaults
+│   ├── interfaces.ts       # Shared TypeScript types
+│   ├── search.ts           # Client-side ticket search
+│   └── storage.ts          # localStorage helpers
 ├── pages/                  # Route-level views
 │   ├── login.tsx
 │   ├── backlog.tsx
@@ -41,7 +47,10 @@ src/
 │   ├── new-knowledge.tsx
 │   ├── knowledge-list.tsx
 │   ├── my-tickets.tsx
-│   └── incidents.tsx
+│   ├── incidents.tsx
+│   ├── ticket-detail.tsx
+│   ├── categories.tsx
+│   └── not-found.tsx
 └── styles/                 # CSS files (imported via the `styles/` alias)
 ```
 
@@ -58,10 +67,19 @@ src/
 | `/new/ticket`         | New Ticket      | Create a ticket                   |
 | `/new/knowledge`      | New Knowledge   | Create a knowledge base article   |
 | `/lists/knowledge`    | Knowledge List  | Browse knowledge base articles    |
-| `/lists/allTickets`   | Incidents       | All tickets                       |
-| `/lists/myTickets`    | My Tickets      | Tickets assigned to the user      |
+| `/lists/all-tickets`  | Incidents       | All incidents                     |
+| `/lists/my-tickets`   | My Tickets      | Incidents you reported or own     |
+| `/categories`         | Categories      | Manage incident categories        |
+| `/ticket/:id`         | Ticket Detail   | View a single incident            |
+| `*`                   | Not Found       | 404 page                          |
 
-All routes except `/` are rendered inside `UserLayout`.
+All routes except `/` are gated by `RequireAuth` and rendered inside `UserLayout`.
+
+---
+
+## 🔐 Auth
+
+Login stores the JWT in `localStorage`. Every authenticated request goes through the `authHeaders()` helper in `lib/fetch.ts`, which sends `Authorization: Bearer <token>`.
 
 ---
 
@@ -70,10 +88,8 @@ All routes except `/` are rendered inside `UserLayout`.
 Create a `.env` file at the project root:
 
 ```env
-VITE_API_BASE_URL=http://localhost:5000
+VITE_API_BASE_URL=http://localhost:3000
 ```
-
-This base URL points to the backend API (see the `server/express` or `server/nest` projects).
 
 ### Path aliases (configured in `vite.config.ts`)
 
