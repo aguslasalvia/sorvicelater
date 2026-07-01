@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { User } from "../../user/entities/user.entity";
 import { Knowledge } from "../../knowledge/entities/knowledge.entity";
+import { Category } from "../../category/entities/category.entity";
 import { TicketStatus } from "../ticket-status.enum";
 
 @Entity("tickets")
@@ -35,11 +36,14 @@ export class Ticket {
   @Column({ type: "int", default: TicketStatus.New })
   status: TicketStatus;
 
-  @Column()
-  assigned: string;
+  // FK to the category. `category_id` holds the raw id; `category` loads the
+  // full category object.
+  @Column({ nullable: true })
+  category_id: number | null;
 
-  @Column()
-  category: string;
+  @ManyToOne(() => Category, { nullable: true })
+  @JoinColumn({ name: "category_id" })
+  category: Category | null;
 
   @Column()
   symptom: string;
@@ -69,9 +73,14 @@ export class Ticket {
   @JoinColumn({ name: "kb" })
   knowledge: Knowledge;
 
+  // FK to the assigned user. `assigned_id` holds the raw id (handy for
+  // filtering without a join); `assigned_user` loads the full user object.
+  @Column({ nullable: true })
+  assigned_id: number | null;
+
   @ManyToOne(() => User, { nullable: true })
   @JoinColumn({ name: "assigned_id" })
-  assigned_user: User;
+  assigned_user: User | null;
 
   @CreateDateColumn()
   created_at: Date;

@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { AppModule } from "./app.module";
 import { UserService } from "./user/user.service";
 import { KnowledgeService } from "./knowledge/knowledge.service";
+import { CategoryService } from "./category/category.service";
 import { Ticket } from "./ticket/entities/ticket.entity";
 import { TicketStatus } from "./ticket/ticket-status.enum";
 
@@ -11,21 +12,27 @@ async function seed() {
   const app = await NestFactory.createApplicationContext(AppModule);
   const userService = app.get(UserService);
   const knowledgeService = app.get(KnowledgeService);
+  const categoryService = app.get(CategoryService);
   const ticketRepository = app.get<Repository<Ticket>>(
     getRepositoryToken(Ticket),
   );
 
+  let testingId: number;
   try {
-    await userService.create({
+    const testing = await userService.create({
       name: "testing",
       username: "testing",
       first_name: "testing",
       email: "testing@testing.com",
       password: "testing",
     });
+    testingId = testing.id;
     console.log('User "testing" created (password hashed with bcrypt)');
   } catch (e) {
-    console.log(`Could not create user "testing": ${e.message}`);
+    // Already exists: fetch its id so tickets can still be assigned to it.
+    const testing = await userService.findByEmail("testing@testing.com");
+    testingId = testing.id;
+    console.log(`User "testing" already existed: ${e.message}`);
   }
 
   const knowledgeBase = [
@@ -57,6 +64,33 @@ async function seed() {
     }
   }
 
+  // ===== Categories ===== //
+  const categoryNames = [
+    "Network",
+    "Access",
+    "Software",
+    "Hardware",
+    "Performance",
+    "Licensing",
+    "Provisioning",
+    "Infrastructure",
+  ];
+  const categoryIds: Record<string, number> = {};
+  for (const name of categoryNames) {
+    try {
+      const category = await categoryService.create({ name });
+      categoryIds[name] = category.id;
+      console.log(`Category "${name}" created`);
+    } catch {
+      // Already exists (name is unique): reuse its id.
+      const existing = (await categoryService.findAll()).find(
+        (c) => c.name === name,
+      );
+      if (existing) categoryIds[name] = existing.id;
+      console.log(`Category "${name}" already existed`);
+    }
+  }
+
   // ===== Tickets ===== //
   const HOUR = 3_600_000;
   const DAY = 24 * HOUR;
@@ -69,12 +103,12 @@ async function seed() {
       description: "VPN keeps disconnecting every few minutes",
       service_offering: "Networking",
       item: "Corporate VPN",
-      category: "Network",
+      category_id: categoryIds["Network"],
       symptom: "Connection drops",
       status: TicketStatus.New,
       request_by: "alice",
       request_for: "alice",
-      assigned: "testing",
+      assigned_id: testingId,
       contact_type: "Discord",
       impact: "high",
       urgency: "high",
@@ -84,12 +118,12 @@ async function seed() {
       description: "Cannot access shared drive",
       service_offering: "Storage",
       item: "File server",
-      category: "Access",
+      category_id: categoryIds["Access"],
       symptom: "Permission denied",
       status: TicketStatus.New,
       request_by: "bob",
       request_for: "bob",
-      assigned: "",
+      assigned_id: null,
       contact_type: "ingame",
       impact: "medium",
       urgency: "medium",
@@ -99,12 +133,12 @@ async function seed() {
       description: "Email client crashes on startup",
       service_offering: "Email",
       item: "Outlook",
-      category: "Software",
+      category_id: categoryIds["Software"],
       symptom: "Application crash",
       status: TicketStatus.Pending,
       request_by: "carol",
       request_for: "carol",
-      assigned: "testing",
+      assigned_id: testingId,
       contact_type: "other",
       impact: "medium",
       urgency: "high",
@@ -114,12 +148,12 @@ async function seed() {
       description: "Printer on 3rd floor not responding",
       service_offering: "Printing",
       item: "HP LaserJet",
-      category: "Hardware",
+      category_id: categoryIds["Hardware"],
       symptom: "Device offline",
       status: TicketStatus.Pending,
       request_by: "dave",
       request_for: "dave",
-      assigned: "",
+      assigned_id: null,
       contact_type: "Discord",
       impact: "low",
       urgency: "medium",
@@ -129,12 +163,12 @@ async function seed() {
       description: "Slow performance on the CRM portal",
       service_offering: "CRM",
       item: "Salesforce",
-      category: "Performance",
+      category_id: categoryIds["Performance"],
       symptom: "High latency",
       status: TicketStatus.Pending,
       request_by: "erin",
       request_for: "erin",
-      assigned: "testing",
+      assigned_id: testingId,
       contact_type: "ingame",
       impact: "high",
       urgency: "low",
@@ -145,12 +179,12 @@ async function seed() {
       description: "Password reset request",
       service_offering: "Identity",
       item: "Active Directory",
-      category: "Access",
+      category_id: categoryIds["Access"],
       symptom: "Forgotten password",
       status: TicketStatus.Resolved,
       request_by: "frank",
       request_for: "frank",
-      assigned: "testing",
+      assigned_id: testingId,
       contact_type: "other",
       impact: "low",
       urgency: "high",
@@ -162,12 +196,12 @@ async function seed() {
       description: "Monitor not detected after docking",
       service_offering: "End user computing",
       item: "Docking station",
-      category: "Hardware",
+      category_id: categoryIds["Hardware"],
       symptom: "No display",
       status: TicketStatus.Resolved,
       request_by: "grace",
       request_for: "grace",
-      assigned: "testing",
+      assigned_id: testingId,
       contact_type: "Discord",
       impact: "medium",
       urgency: "medium",
@@ -180,12 +214,12 @@ async function seed() {
       description: "Software license activation failing",
       service_offering: "Software",
       item: "Adobe Creative Cloud",
-      category: "Licensing",
+      category_id: categoryIds["Licensing"],
       symptom: "Activation error",
       status: TicketStatus.Resolved,
       request_by: "heidi",
       request_for: "heidi",
-      assigned: "testing",
+      assigned_id: testingId,
       contact_type: "other",
       impact: "medium",
       urgency: "medium",
@@ -197,12 +231,12 @@ async function seed() {
       description: "New laptop setup for onboarding",
       service_offering: "End user computing",
       item: "Laptop",
-      category: "Provisioning",
+      category_id: categoryIds["Provisioning"],
       symptom: "New hire setup",
       status: TicketStatus.Resolved,
       request_by: "ivan",
       request_for: "ivan",
-      assigned: "testing",
+      assigned_id: testingId,
       contact_type: "ingame",
       impact: "low",
       urgency: "low",
@@ -215,12 +249,12 @@ async function seed() {
       description: "Recurring database backup failures",
       service_offering: "Database",
       item: "PostgreSQL cluster",
-      category: "Infrastructure",
+      category_id: categoryIds["Infrastructure"],
       symptom: "Backup job fails",
       status: TicketStatus.Resolved,
       request_by: "judy",
       request_for: "judy",
-      assigned: "testing",
+      assigned_id: testingId,
       contact_type: "other",
       impact: "high",
       urgency: "high",

@@ -24,11 +24,16 @@ export class TicketService {
   }
 
   async findAll() {
-    return await this.ticketRepository.find();
+    return await this.ticketRepository.find({
+      relations: { assigned_user: true, category: true },
+    });
   }
 
   async findOne(id: number) {
-    return await this.ticketRepository.findOneBy({ id });
+    return await this.ticketRepository.findOne({
+      where: { id },
+      relations: { assigned_user: true, category: true },
+    });
   }
 
   async update(id: number, updateTicketDto: UpdateTicketDto) {
@@ -39,6 +44,9 @@ export class TicketService {
     delete patch.created_at;
     delete patch.updated_at;
     delete patch.resolved_at;
+    // Strip loaded relation objects; only the *_id columns are persisted.
+    delete patch.assigned_user;
+    delete patch.category;
 
     // Only touch resolved_at on a real status transition, so editing an
     // already-resolved ticket doesn't reset its resolution time.
@@ -80,9 +88,21 @@ export class TicketService {
     );
   }
 
-  async findByAssigned(id: string) {
-    return await this.ticketRepository.findBy({
-      assigned: id,
+  // Returns the last 15 tickets created, ordered by creation date
+  async lastTickets() {
+    return await this.ticketRepository.find({
+      relations: { assigned_user: true, category: true },
+      order: { created_at: "DESC" },
+      take: 15,
+    });
+  }
+
+  async findByAssigned(assignedId: number) {
+    return await this.ticketRepository.find({
+      where: { assigned_id: assignedId },
+      relations: { assigned_user: true, category: true },
+      order: { created_at: "DESC" },
+      take: 15,
     });
   }
 

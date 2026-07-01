@@ -7,8 +7,8 @@ export class CreateTicketDto {
   item: string;
   contact_type: string;
   status: TicketStatus;
-  assigned: string;
-  category: string;
+  assigned_id: number | null; // id of the assigned user (null = unassigned)
+  category_id: number | null; // id of the category (null = none)
   symptom: string;
   impact: string;
   urgency: string;
