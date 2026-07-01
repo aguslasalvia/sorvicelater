@@ -11,6 +11,7 @@ import MyTickets from "./pages/my-tickets";
 import Incidents from "./pages/incidents";
 import TicketDetail from "./pages/ticket-detail";
 import Categories from "./pages/categories";
+import NotFound from "./pages/not-found";
 
 export default function App() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
             <Route path="/lists/my-tickets" element={<MyTickets />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/ticket/:id" element={<TicketDetail />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
       </Routes>
