@@ -74,7 +74,7 @@ const TicketDetail = () => {
     { label: "Priority", value: ticket.priority },
     { label: "Impact", value: ticket.impact },
     { label: "Urgency", value: ticket.urgency },
-    { label: "Category", value: ticket.category },
+    { label: "Category", value: ticket.category?.name },
     { label: "Symptom", value: ticket.symptom },
     { label: "Service offering", value: ticket.service_offering },
     { label: "Configuration item", value: ticket.item },
@@ -107,7 +107,7 @@ const TicketDetail = () => {
             </span>
             <span>
               <span className="muted">Assignee</span>{" "}
-              {ticket.assigned || "Unassigned"}
+              {ticket.assigned_user?.username || "Unassigned"}
             </span>
           </div>
         </div>

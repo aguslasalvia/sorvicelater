@@ -37,7 +37,7 @@ const TicketCard = ({ tickets }: TicketCardProps) => {
 							</span>
 							<span>
 								<span className="muted">Assignee</span>{" "}
-								{item.assigned || "Unassigned"}
+								{item.assigned_user?.username || "Unassigned"}
 							</span>
 						</div>
 						<span className="ticket-card__arrow" aria-hidden="true">

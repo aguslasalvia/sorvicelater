@@ -3,9 +3,9 @@ import { Link } from "react-router";
 import { Inbox, Clock, CircleCheck, type LucideIcon, Eye } from "lucide-react";
 import {
   fetchTicketStateCounters,
-  fetchAllTickets,
   fetchTicketEfficiency,
   type Efficiency,
+  fetchLastTickets,
 } from "@/lib/fetch";
 import { Ticket } from "@/lib/interfaces";
 import { TicketStatus, statusLabel } from "@/lib/constants";
@@ -54,7 +54,7 @@ const Counters = () => {
     const load = async () => {
       setCounters(await fetchTicketStateCounters());
       setEfficiency(await fetchTicketEfficiency());
-      const all = await fetchAllTickets();
+      const all = await fetchLastTickets();
       setRecent([...all].sort((a, b) => (b.id ?? 0) - (a.id ?? 0)).slice(0, 5));
     };
     load();
@@ -175,7 +175,7 @@ const Counters = () => {
                   {t.description || t.service_offering || "Untitled incident"}
                 </span>
                 <span className="bl-row__assignee">
-                  {t.assigned || "Unassigned"}
+                  {t.assigned_user?.username || "Unassigned"}
                 </span>
                 <span
                   className={`status-pill tone-${STATUS_TONE[t.status as TicketStatus]}`}

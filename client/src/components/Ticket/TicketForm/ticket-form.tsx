@@ -2,10 +2,11 @@ import { Link, useNavigate } from "react-router";
 import { Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Knowledge, User, Ticket } from "@/lib/interfaces";
+import { Knowledge, User, Ticket, Category } from "@/lib/interfaces";
 import {
   fetchAllKnowledge,
   fetchAllAdmins,
+  fetchCategories,
   fetchCreateTicket,
   fetchUpdateTicket,
 } from "@/lib/fetch";
@@ -25,8 +26,9 @@ const LEVEL_OPTIONS = [
 ];
 
 const CONTACT_OPTIONS = [
-  { value: "Discord", label: "Discord" },
-  { value: "ingame", label: "In-game" },
+  { value: "email", label: "Email" },
+  { value: "phone", label: "Phone" },
+  { value: "form", label: "Electronic form" },
   { value: "other", label: "Other" },
 ];
 
@@ -45,6 +47,7 @@ const getPriority = (impact: string, urgency: string) => {
 const TicketForm = ({ props, onSaved, onCancel }: TicketFormProps) => {
   const [admins, setAdmins] = useState<User[]>([]);
   const [knowledges, setKnowledge] = useState<Knowledge[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [ticket, setTicket] = useState(props);
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -55,6 +58,7 @@ const TicketForm = ({ props, onSaved, onCancel }: TicketFormProps) => {
     const getData = async () => {
       setKnowledge((await fetchAllKnowledge()) || []);
       setAdmins((await fetchAllAdmins()) || []);
+      setCategories((await fetchCategories()) || []);
     };
     getData();
   }, []);
@@ -62,7 +66,7 @@ const TicketForm = ({ props, onSaved, onCancel }: TicketFormProps) => {
   // assigned, kb, worknotes, additional y priority quedan opcionales
   const REQUIRED_FIELDS: { key: keyof Ticket; label: string }[] = [
     { key: "description", label: "Short description" },
-    { key: "category", label: "Category" },
+    { key: "category_id", label: "Category" },
     { key: "symptom", label: "Symptom" },
     { key: "service_offering", label: "Service offering" },
     { key: "item", label: "Configuration item" },
@@ -209,14 +213,25 @@ const TicketForm = ({ props, onSaved, onCancel }: TicketFormProps) => {
             <div className="field-grid-2">
               <div className="field">
                 <label htmlFor="category">Category</label>
-                <input
+                <select
                   id="category"
                   name="category"
-                  type="text"
-                  value={ticket.category}
-                  placeholder="e.g. Network"
-                  onChange={(e) => update({ category: e.target.value })}
-                />
+                  value={ticket.category_id ?? ""}
+                  onChange={(e) =>
+                    update({
+                      category_id: e.target.value
+                        ? Number(e.target.value)
+                        : null,
+                    })
+                  }
+                >
+                  <option value="">Select a category</option>
+                  {categories.map((category) => (
+                    <option value={category.id} key={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="field">
@@ -317,14 +332,16 @@ const TicketForm = ({ props, onSaved, onCancel }: TicketFormProps) => {
               <select
                 id="assigned"
                 name="assigned"
-                value={ticket.assigned}
-                onChange={(e) => update({ assigned: e.target.value })}
+                value={ticket.assigned_id ?? ""}
+                onChange={(e) =>
+                  update({
+                    assigned_id: e.target.value ? Number(e.target.value) : null,
+                  })
+                }
               >
-                <option value="" disabled>
-                  Unassigned
-                </option>
+                <option value="">Unassigned</option>
                 {admins.map((admin) => (
-                  <option value={admin.username} key={admin.username}>
+                  <option value={admin.id} key={admin.id}>
                     {admin.username}
                   </option>
                 ))}
