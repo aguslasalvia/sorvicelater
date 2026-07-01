@@ -233,47 +233,69 @@
         gap: 22px;
     }
 
-    /* ===== Glass card ===== */
+    /* ===== Card ===== */
     .result {
         display: flex;
         flex-direction: column;
-        gap: 12px;
-        padding: 24px 26px 22px;
+        gap: 14px;
+        padding: 22px 24px;
         border-radius: 18px;
-        background: linear-gradient(155deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.02) 52%);
-        border: 1px solid rgba(0, 0, 0, 0.08);
-        box-shadow:
-            0 16px 40px rgba(0, 0, 0, 0.07),
-            inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        background-color: #ffffff;
+        border: 1px solid #eceef1;
+        box-shadow: 0 10px 30px rgba(214, 72, 28, 0.07);
         transition: transform 0.18s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
     .result:hover {
         transform: translateY(-3px);
-        border-color: rgba(244, 116, 70, 0.4);
-        box-shadow:
-            0 22px 50px rgba(0, 0, 0, 0.08),
-            0 6px 18px rgba(0, 0, 0, 0.04),
-            inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        border-color: #f6d8c9;
+        box-shadow: 0 18px 42px rgba(214, 72, 28, 0.13);
+    }
+
+    .kbTop {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .kbIcon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        color: #d6481c;
+        background-color: #fce4d8;
+        border-radius: 11px;
     }
 
     .kbID {
-        align-self: flex-start;
         font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 0.4px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
         color: #d6481c;
-        background: rgba(241, 91, 38, 0.16);
-        border: 1px solid rgba(241, 91, 38, 0.3);
-        padding: 4px 10px;
-        border-radius: 999px;
+        background-color: #fce4d8;
+        border: 1px solid #d6481c;
+        padding: 4px 11px;
+        border-radius: 8px;
     }
 
     .kbTitle {
         font-size: 18px;
-        font-weight: 600;
+        font-weight: 700;
         color: #16181d;
         line-height: 1.35;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .kbDesc {
+        font-size: 13.5px;
+        line-height: 1.55;
+        color: #6c7280;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -286,11 +308,11 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        padding: 9px 16px;
+        padding: 10px 18px;
         border-radius: 10px;
-        border: 1px solid rgba(0, 0, 0, 0.09);
-        background: rgba(0, 0, 0, 0.04);
-        color: #3f424b;
+        border: 1px solid #f0e7e1;
+        background-color: #faf7f5;
+        color: #d6481c;
         font-size: 13px;
         font-weight: 600;
         text-decoration: none;
@@ -299,7 +321,7 @@
     }
 
     .button:hover {
-        background: linear-gradient(135deg, #f47446, #d6481c);
+        background-image: linear-gradient(135deg, #f47446, #d6481c);
         border-color: transparent;
         color: #fff;
         box-shadow: 0 6px 18px rgba(241, 91, 38, 0.28);
