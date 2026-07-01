@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,94 +7,443 @@
     <meta name="color-scheme" content="light" />
     <title>{{subject}}</title>
   </head>
-  <body style="margin:0; padding:0; width:100%; background-color:#fbece2; -webkit-font-smoothing:antialiased;">
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      background-color: #fbece2;
+      -webkit-font-smoothing: antialiased;
+    "
+  >
     <!-- Preheader: texto oculto en la vista previa del inbox -->
-    <div style="display:none; max-height:0; overflow:hidden; opacity:0; mso-hide:all;">
+    <div
+      style="
+        display: none;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        mso-hide: all;
+      "
+    >
       {{preheader}}
     </div>
 
     <!-- Fondo durazno cálido (como el dashboard) -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-           style="background-color:#fbece2; background-image:linear-gradient(160deg,#fde4d4,#fbf6f2 55%,#f6f7f9);">
+    <table
+      role="presentation"
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      style="
+        background-color: #fbece2;
+        background-image: linear-gradient(
+          160deg,
+          #fde4d4,
+          #fbf6f2 55%,
+          #f6f7f9
+        );
+      "
+    >
       <tr>
-        <td align="center" style="padding:44px 16px;">
-
-          <!-- Marca -->
-          <table role="presentation" width="480" cellpadding="0" cellspacing="0" style="width:600px; max-width:600px;">
+        <td align="center" style="padding: 44px 16px">
+          <!-- Card principal -->
+          <table
+            role="presentation"
+            width="600"
+            cellpadding="0"
+            cellspacing="0"
+            style="
+              width: 600px;
+              max-width: 600px;
+              background-color: #ffffff;
+              border: 1px solid #eceef1;
+              border-radius: 18px;
+              overflow: hidden;
+              box-shadow: 0 10px 30px rgba(214, 72, 28, 0.1);
+            "
+          >
+            <!-- Barra superior clara con marca -->
             <tr>
-              <td style="padding:0 4px 14px 4px; font-family:Arial,sans-serif; font-size:14px; font-weight:bold; color:#16181d;">
-                {{#if brandName}}{{brandName}}{{else}}SorvisLater{{/if}}
+              <td
+                style="
+                  background-color: #ffffff;
+                  padding: 22px 32px 6px 32px;
+                  border-radius: 18px 18px 0 0;
+                "
+              >
+                <table
+                  role="presentation"
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                >
+                  <tr>
+                    <td style="vertical-align: middle">
+                      <table
+                        role="presentation"
+                        cellpadding="0"
+                        cellspacing="0"
+                      >
+                        <tr>
+                          {{#if logoUrl}}
+                          <td
+                            width="30"
+                            height="30"
+                            valign="middle"
+                            style="width: 30px; height: 30px"
+                          >
+                            <img
+                              src="{{logoUrl}}"
+                              width="30"
+                              height="30"
+                              alt="{{#if brandName}}{{brandName}}{{else}}SorvisLater{{/if}}"
+                              style="
+                                display: block;
+                                width: 30px;
+                                height: 30px;
+                                border-radius: 8px;
+                                border: 0;
+                                outline: none;
+                                text-decoration: none;
+                              "
+                            />
+                          </td>
+                          {{else}}
+                          <td
+                            width="30"
+                            height="30"
+                            align="center"
+                            valign="middle"
+                            bgcolor="#f15b26"
+                            style="
+                              width: 30px;
+                              height: 30px;
+                              background-color: #f15b26;
+                              background-image: linear-gradient(
+                                135deg,
+                                #f47446,
+                                #d6481c
+                              );
+                              border-radius: 8px;
+                              font-family: Arial, sans-serif;
+                              font-size: 16px;
+                              font-weight: bold;
+                              color: #ffffff;
+                            "
+                          >
+                            S
+                          </td>
+                          {{/if}}
+                          <td
+                            style="
+                              padding-left: 12px;
+                              vertical-align: middle;
+                              font-family: Arial, sans-serif;
+                              font-size: 15px;
+                              font-weight: bold;
+                              color: #16181d;
+                              letter-spacing: 0.2px;
+                            "
+                          >
+                            {{#if
+                            brandName}}{{brandName}}{{else}}SorvisLater{{/if}}
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td
+                      align="right"
+                      style="
+                        vertical-align: middle;
+                        font-family: Arial, sans-serif;
+                        font-size: 12px;
+                        color: #9aa0a8;
+                      "
+                    >
+                      {{#if
+                      headerNote}}{{headerNote}}{{else}}Notification{{/if}}
+                    </td>
+                  </tr>
+                </table>
               </td>
             </tr>
-          </table>
 
-          <!-- Card de incidente -->
-          <table role="presentation" width="600" cellpadding="0" cellspacing="0"
-                 style="width:600px; max-width:600px; background-color:#ffffff; border:1px solid #eceef1; border-radius:18px; box-shadow:0 8px 24px rgba(214,72,28,0.08);">
+            <!-- Encabezado de la notificación -->
             <tr>
-              <td style="padding:34px 36px;">
-
-                <!-- Fila superior: código + estado -->
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                  <tr>
-                    <td style="vertical-align:middle;">
-                      <span style="display:inline-block; font-family:Arial,sans-serif; font-size:12px; font-weight:bold; color:#d6481c; background-color:#fce4d8; border:1px solid #d6481c; padding:4px 11px; border-radius:8px;">
-                        {{ticketCode}}
-                      </span>
-                    </td>
-                    {{#if statusLabel}}
-                    <td align="right" style="vertical-align:middle;">
-                      <span style="display:inline-block; font-family:Arial,sans-serif; font-size:12px; font-weight:bold; color:{{#if statusTextColor}}{{statusTextColor}}{{else}}#d6481c{{/if}}; background-color:{{#if statusColor}}{{statusColor}}{{else}}#fce4d8{{/if}}; border:1px solid {{#if statusTextColor}}{{statusTextColor}}{{else}}#d6481c{{/if}}; padding:4px 11px; border-radius:8px;">
-                        {{statusLabel}}
-                      </span>
-                    </td>
-                    {{/if}}
-                  </tr>
-                </table>
-
-                <!-- Título -->
-                <h1 style="margin:22px 0 24px 0; font-family:Arial,sans-serif; font-size:23px; line-height:31px; font-weight:bold; color:#16181d;">
-                  {{title}}
-                </h1>
-
-                <!-- For -->
-                {{#if requestedFor}}
-                <p style="margin:0 0 10px 0; font-family:Arial,sans-serif; font-size:14px; color:#16181d;">
-                  <span style="color:#9aa0a8;">For</span>&nbsp;&nbsp;{{requestedFor}}
+              <td style="padding: 32px 36px 8px 36px">
+                {{#if kicker}}
+                <p
+                  style="
+                    margin: 0 0 8px 0;
+                    font-family: Arial, sans-serif;
+                    font-size: 12px;
+                    font-weight: bold;
+                    letter-spacing: 1.2px;
+                    text-transform: uppercase;
+                    color: #d6481c;
+                  "
+                >
+                  {{kicker}}
                 </p>
                 {{/if}}
+                <h1
+                  style="
+                    margin: 0;
+                    font-family: Arial, sans-serif;
+                    font-size: 24px;
+                    line-height: 32px;
+                    font-weight: bold;
+                    color: #16181d;
+                  "
+                >
+                  {{headline}}
+                </h1>
+                {{#if message}}
+                <p
+                  style="
+                    margin: 14px 0 0 0;
+                    font-family: Arial, sans-serif;
+                    font-size: 15px;
+                    line-height: 24px;
+                    color: #5f6470;
+                  "
+                >
+                  {{message}}
+                </p>
+                {{/if}}
+              </td>
+            </tr>
 
-                <!-- Assignee + botón flecha -->
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+            <!-- Card del incidente (anidada) -->
+            <tr>
+              <td style="padding: 20px 36px 4px 36px">
+                <table
+                  role="presentation"
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  style="
+                    background-color: #faf7f5;
+                    border: 1px solid #f0e7e1;
+                    border-radius: 14px;
+                  "
+                >
                   <tr>
-                    <td style="vertical-align:middle; font-family:Arial,sans-serif; font-size:14px; color:#16181d;">
-                      {{#if assignee}}<span style="color:#9aa0a8;">Assignee</span>&nbsp;&nbsp;{{assignee}}{{/if}}
+                    <td style="padding: 22px 24px">
+                      <!-- código + estado -->
+                      <table
+                        role="presentation"
+                        width="100%"
+                        cellpadding="0"
+                        cellspacing="0"
+                      >
+                        <tr>
+                          <td style="vertical-align: middle">
+                            <span
+                              style="
+                                display: inline-block;
+                                font-family: Arial, sans-serif;
+                                font-size: 12px;
+                                font-weight: bold;
+                                color: #d6481c;
+                                background-color: #fce4d8;
+                                border: 1px solid #d6481c;
+                                padding: 4px 11px;
+                                border-radius: 8px;
+                              "
+                            >
+                              {{ticketCode}}
+                            </span>
+                          </td>
+                          <td align="right" style="vertical-align: middle">
+                            <span
+                              style="
+                                display: inline-block;
+                                font-family: Arial, sans-serif;
+                                font-size: 12px;
+                                font-weight: bold;
+                                color: #d6481c;
+                                background-color: #fce4d8;
+                                border: 1px solid #d6481c;
+                                padding: 4px 11px;
+                                border-radius: 8px;
+                              "
+                            >
+                              New
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+
+                      <!-- título del incidente -->
+                      <h2
+                        style="
+                          margin: 18px 0 18px 0;
+                          font-family: Arial, sans-serif;
+                          font-size: 19px;
+                          line-height: 26px;
+                          font-weight: bold;
+                          color: #16181d;
+                        "
+                      >
+                        {{title}}
+                      </h2>
+
+                      <!-- For -->
+                      {{#if requestedFor}}
+                      <p
+                        style="
+                          margin: 0 0 10px 0;
+                          font-family: Arial, sans-serif;
+                          font-size: 14px;
+                          color: #16181d;
+                        "
+                      >
+                        <span style="color: #9aa0a8">For</span
+                        >&nbsp;&nbsp;{{requestedFor}}
+                      </p>
+                      {{/if}}
+
+                      <!-- Assignee -->
+                      {{#if assignee}}
+                      <p
+                        style="
+                          margin: 0;
+                          font-family: Arial, sans-serif;
+                          font-size: 14px;
+                          color: #16181d;
+                        "
+                      >
+                        <span style="color: #9aa0a8">Assignee</span
+                        >&nbsp;&nbsp;{{assignee}}
+                      </p>
+                      {{/if}}
                     </td>
-                    {{#if actionUrl}}
-                    <td align="right" style="vertical-align:middle;">
-                      <a href="{{actionUrl}}" target="_blank" rel="noopener noreferrer"
-                         style="display:inline-block; width:38px; height:38px; line-height:38px; text-align:center; font-family:Arial,sans-serif; font-size:17px; font-weight:bold; color:#d6481c; background-color:#fce4d8; border:1px solid #d6481c; border-radius:9px; text-decoration:none;">
-                        &rarr;
-                      </a>
-                    </td>
-                    {{/if}}
                   </tr>
                 </table>
+              </td>
+            </tr>
 
+            <!-- Grilla de detalles extra: array de { label, value } -->
+            {{#if details.length}}
+            <tr>
+              <td style="padding: 16px 36px 4px 36px">
+                <table
+                  role="presentation"
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                >
+                  {{#each details}}
+                  <tr>
+                    <td
+                      style="
+                        padding: 9px 0;
+                        font-family: Arial, sans-serif;
+                        font-size: 13px;
+                        color: #9aa0a8;
+                        width: 42%;
+                        border-bottom: 1px solid #f1f2f4;
+                        vertical-align: top;
+                      "
+                    >
+                      {{this.label}}
+                    </td>
+                    <td
+                      style="
+                        padding: 9px 0;
+                        font-family: Arial, sans-serif;
+                        font-size: 14px;
+                        color: #16181d;
+                        font-weight: bold;
+                        border-bottom: 1px solid #f1f2f4;
+                        vertical-align: top;
+                      "
+                    >
+                      {{this.value}}
+                    </td>
+                  </tr>
+                  {{/each}}
+                </table>
+              </td>
+            </tr>
+            {{/if}}
+
+            <!-- CTA -->
+            {{#if actionUrl}}
+            <tr>
+              <td style="padding: 24px 36px 8px 36px">
+                <table role="presentation" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td
+                      bgcolor="#f15b26"
+                      style="
+                        border-radius: 10px;
+                        background-color: #f15b26;
+                        background-image: linear-gradient(
+                          135deg,
+                          #f47446,
+                          #d6481c
+                        );
+                      "
+                    >
+                      <a
+                        href="{{actionUrl}}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style="
+                          display: inline-block;
+                          padding: 13px 34px;
+                          font-family: Arial, sans-serif;
+                          font-size: 15px;
+                          font-weight: bold;
+                          color: #ffffff;
+                          text-decoration: none;
+                          border-radius: 10px;
+                        "
+                      >
+                        {{#if actionText}}{{actionText}}{{else}}View
+                        incident{{/if}}
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            {{/if}}
+
+            <!-- Footer -->
+            <tr>
+              <td style="padding: 26px 36px; border-top: 1px solid #f1f2f4">
+                <p
+                  style="
+                    margin: 0 0 4px 0;
+                    font-family: Arial, sans-serif;
+                    font-size: 13px;
+                    font-weight: bold;
+                    color: #16181d;
+                  "
+                >
+                  {{#if brandName}}{{brandName}}{{else}}SorvisLater{{/if}} ·
+                  UAIQ
+                </p>
+                <p
+                  style="
+                    margin: 0;
+                    font-family: Arial, sans-serif;
+                    font-size: 12px;
+                    line-height: 18px;
+                    color: #9aa0a8;
+                  "
+                >
+                  {{#if footerNote}}{{footerNote}}{{else}}This is an automated
+                  message, please do not reply to this email.{{/if}}
+                </p>
               </td>
             </tr>
           </table>
           <!-- /Card -->
-
-          <!-- Footer -->
-          <table role="presentation" width="480" cellpadding="0" cellspacing="0" style="width:600px; max-width:600px;">
-            <tr>
-              <td style="padding:18px 4px 0 4px; font-family:Arial,sans-serif; font-size:12px; line-height:18px; color:#a58c81;">
-                {{#if footerNote}}{{footerNote}}{{else}}Mensaje automático, por favor no respondas a este correo.{{/if}}
-              </td>
-            </tr>
-          </table>
-
         </td>
       </tr>
     </table>
