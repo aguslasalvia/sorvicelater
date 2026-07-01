@@ -7,6 +7,7 @@ import { TypeOrmModule } from "@nestjs/typeorm/dist/typeorm.module";
 import { TicketModule } from "./ticket/ticket.module";
 import { KnowledgeModule } from "./knowledge/knowledge.module";
 import { AuthModule } from "./auth/auth.module";
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AuthModule } from "./auth/auth.module";
     TicketModule,
     KnowledgeModule,
     AuthModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
