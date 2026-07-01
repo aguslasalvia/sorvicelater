@@ -17,6 +17,11 @@ export interface Knowledge {
 	description: string;
 }
 
+export interface Category {
+	id: number;
+	name: string;
+}
+
 import { TicketStatus } from "./constants";
 
 export interface Ticket {
@@ -27,8 +32,10 @@ export interface Ticket {
 	item: string;
 	contact_type: string;
 	status: TicketStatus;
-	assigned: string;
-	category: string;
+	assigned_id: number | null;
+	assigned_user?: User | null;
+	category_id: number | null;
+	category?: Category | null;
 	symptom: string;
 	impact: string;
 	urgency: string;
