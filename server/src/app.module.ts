@@ -8,6 +8,7 @@ import { TicketModule } from "./ticket/ticket.module";
 import { KnowledgeModule } from "./knowledge/knowledge.module";
 import { AuthModule } from "./auth/auth.module";
 import { NotificationsModule } from './notifications/notifications.module';
+import { CategoryModule } from "./category/category.module";
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { NotificationsModule } from './notifications/notifications.module';
     KnowledgeModule,
     AuthModule,
     NotificationsModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
